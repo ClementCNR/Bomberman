@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <Windows.h>
 
 typedef struct{
     int columns;
@@ -9,8 +10,17 @@ typedef struct{
     char **map;
 } Map;
 
+typedef struct{
+    int place_x;
+    int place_y;
+    int alive;
+    int maxBomb;
+    int live;
+    int invincible;
+} Player;
 
 
+// Return a Map struct from the file
 Map map(int mapNumber){
     // FORMATAGE DU NOM DU FICHIER DE MAP
     char mapFilename[20] = "maps/map_";
@@ -74,13 +84,33 @@ Map map(int mapNumber){
 
 
 
-
+// Take a Map struct and print it to stdout
 void printMap(Map map){
+
+    SetConsoleOutputCP(65001);
+
+    char  *breakable = "▒";
+    char *unbreakable = "█";
+
+    int nbPlayer = 1;
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
 
-            printf("%c", map.map[i][j]);
+            if(map.map[i][j] == 'p'){
+                printf("%d", nbPlayer);
+                nbPlayer++;
+            }
+            else if (map.map[i][j] == 'x'){
+                printf("%s", unbreakable);
+            }
+            else if (map.map[i][j] == 'm'){
+                printf("%s", breakable);
+            }
+            else{
+                printf("%c", map.map[i][j]);
+            }
+
         }
         printf("\n");
     }
@@ -94,7 +124,11 @@ int main(){
     printf("\n\n");
     printMap(myMap);
 
+
     //printf("\n-\xE2-\x96-\x92-");
+
+    //printf("%c%c%c", '\xE2', '\x96', '\x92');
+
 
     return 0;
 }
