@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 
+// used to format the console output to print unicode
 #include <Windows.h>
 
 typedef struct{
+    int defaultBomb;
     int columns;
     int rows;
     char **map;
@@ -40,17 +43,21 @@ Map map(int mapNumber){
 
     Map map;
 
-    // LECTURE DE LA 2EME LIGNE QUI CONTIENT LA TAILLE ET LA HAUTEUR
     char line[1024];
+
+
     fgets(line, 1024, file);
+
+    map.defaultBomb = atoi(&line[0]);
+
+
     fgets(line, 1024, file);
 
+    map.columns = atoi(strtok(line, " "));
+    map.rows = atoi(strtok(line, " "));
 
-    //map.columns = atoi(&line[0]);
-    //map.rows = atoi(&line[2]);
 
-    map.columns = 9;
-    map.rows = 5;
+
 
     // CREATION DU TABLEAU EN 2D
     char** tab = malloc(map.rows * sizeof(char*));
@@ -87,12 +94,15 @@ Map map(int mapNumber){
 // Take a Map struct and print it to stdout
 void printMap(Map map){
 
+    system("cls");
+
     SetConsoleOutputCP(65001);
 
-    char  *breakable = "▒";
+    char *breakable = "▒";
     char *unbreakable = "█";
 
     int nbPlayer = 1;
+
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
@@ -117,18 +127,58 @@ void printMap(Map map){
 
 }
 
-int main(){
-    Map myMap;
-    myMap = map(1);
 
-    printf("\n\n");
+// Return the number of map created by checking de maps directory
+int nbMapFile(){
+
+    int mapNumber = 1;
+    FILE *file;
+
+    char mapBaseFilename[20] = "maps/map_";
+    char mapFilename[20];
+
+    strcpy(mapFilename, mapBaseFilename);
+    char temp[5];
+    sprintf(temp,"%d",mapNumber);
+
+    strcat(mapFilename, temp);
+    strcat(mapFilename, ".txt");
+
+    file = fopen(mapFilename, "r");
+
+
+    while (file != NULL){
+        mapNumber++;
+        sprintf(temp,"%d",mapNumber);
+
+        strcpy(mapFilename, mapBaseFilename);
+        strcat(mapFilename, temp);
+        strcat(mapFilename, ".txt");
+
+        fclose(file);
+        file = fopen(mapFilename, "r");
+    }
+
+    return mapNumber - 1;
+}
+
+int main(){
+
+    Map myMap;
+    int nbMap = nbMapFile();
+
+
+    int mapNumber = 0;
+    printf("\n === Select a map (between 1 and %d) ===\n\n", nbMap);
+    scanf("%d", &mapNumber);
+    myMap = map(mapNumber);
+
+
     printMap(myMap);
 
-
-    //printf("\n-\xE2-\x96-\x92-");
-
-    //printf("%c%c%c", '\xE2', '\x96', '\x92');
-
+    scanf("%d", &mapNumber);
 
     return 0;
+
+    // https://stackoverflow.com/questions/41383062/c-how-to-break-scanf-with-no-enter-and-no-string
 }
