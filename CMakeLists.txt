@@ -3,4 +3,4 @@ project(Projet C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Projet main.c)
+add_executable(Projet main.c maps/colors.h maps/colors.c)

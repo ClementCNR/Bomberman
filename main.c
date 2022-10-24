@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
+#include "colors.h" // Lib to modify the cli output colors
 
 // used to format the console output to print unicode
 #include <Windows.h>
@@ -14,6 +15,7 @@ typedef struct{
 } Map;
 
 typedef struct{
+    int playerID;
     int place_x;
     int place_y;
     int alive;
@@ -21,6 +23,7 @@ typedef struct{
     int live;
     int invincible;
 } Player;
+
 
 
 // Return a Map struct from the file
@@ -94,7 +97,9 @@ Map map(int mapNumber){
 // Take a Map struct and print it to stdout
 void printMap(Map map){
 
-    system("cls");
+    //system("cls");
+
+    red();
 
     SetConsoleOutputCP(65001);
 
@@ -123,9 +128,12 @@ void printMap(Map map){
 
         }
         printf("\n");
-    }
 
+
+    }
+    reset();
 }
+
 
 
 // Return the number of map created by checking de maps directory
@@ -162,15 +170,43 @@ int nbMapFile(){
     return mapNumber - 1;
 }
 
+
+
+// Display all the maps
+void printAllMaps(){
+    int nbMap = nbMapFile();
+
+    for(int i = 1; i <= nbMap; i++){
+        printf("\n === Map number %d ===\n\n", i);
+        printMap(map(i));
+    }
+}
+
+
+
+
 int main(){
 
     Map myMap;
     int nbMap = nbMapFile();
 
+    int selectedMaps[nbMap];
+    for(int i=0; i<nbMap; i++){
+        selectedMaps[i] = 0;
+    }
 
-    int mapNumber = 0;
-    printf("\n === Select a map (between 1 and %d) ===\n\n", nbMap);
-    scanf("%d", &mapNumber);
+
+    int mapNumber = -1;
+    while(mapNumber < 1 || mapNumber > nbMap){
+        system("cls");
+        printAllMaps();
+        printf("\n === Select 1 or more maps (between 1 and %d) ===", nbMap);
+        printf("\n    === Enter 0 to validate your selection ===\n\n");
+        scanf("%d", &mapNumber);
+    }
+
+    system("cls");
+
     myMap = map(mapNumber);
 
 
