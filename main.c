@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include <Windows.h>
 
 typedef struct{
@@ -10,6 +9,20 @@ typedef struct{
     char **map;
 } Map;
 
+/* typedef struct {
+ *      int live;
+        int invincible;
+        int heart;
+        int pass_bomb;
+        int bomb_kick;
+        int yellow_fire;
+        int red_fire;
+        int blue_fire;
+        int bomb_up;
+        int bomb_down;
+    } Items;
+*/
+
 typedef struct{
     int place_x;
     int place_y;
@@ -17,7 +30,63 @@ typedef struct{
     int maxBomb;
     int live;
     int invincible;
+    int heart;
+    int pass_bomb;
+    int bomb_kick;
+    int yellow_fire;
+    int red_fire;
+    int blue_fire;
+    int bomb_range;
+    // Items *list_items;
 } Player;
+
+
+
+Player items_take (Map map, int columns,int line,int item_place, Player player) {
+
+    int player_y = player.place_y;
+    int player_x = player.place_x;
+    if (map.map[player_x][player_y] != 'p' && map[player_x][player_y] != ' ' && map[player_x][player_y] != 'bomb') {
+        return player;
+    }else if (map.map[player_x][player_y] == 'b'){ // b = une bombe en plus
+        player.maxBomb++;
+    }else if (map.map[player_x][player_y] == 'd'){ // d = une bombe en moins
+        player.maxBomb--;
+    }else if (map.map[player_x][player_y] == 'c') { // c = portée +1
+        player.bomb_range++;
+    }else if(map.map[player_x][player_y] == 'e') { // e = portée -1
+        player.bomb_range--;
+    }else if(map.map[player_x][player_y] == 'r'){ // r = portée max
+        // appel fonction pour mettre la valuer de la bombe au max
+        // au colonne si il y  a plus de colonne ou de ligne ou autre
+    }else if (map.map[player_x][player_y] == 'l' && player.heart == 0 ) { // l = heart
+        player.heart++;
+    }else if (map.map[player_x][player_y] == 'i'){ // i = invincible
+        // Wait turn playing
+    }else if(map.map[player_x][player_y] == 'p'){ // p = pass_bomb
+        if (player.bomb_kick == 1) { // Check si possede l'item de pousser les bomb
+            player.bomb_kick = 0; // retire l'item bomb kick
+        }
+        player.pass_bomb = 1;
+    }
+    else if(map.map[player_x][player_y] == 'k'){ // k = bomb_kick
+        if (player.pass_bomb == 1) { // Check si possede l'item de passer sur les bomb
+            player.pass_bomb = 0; // retire l'item de passer sur les bombes
+        }
+        player.bomb_kick = 1;
+    }
+
+
+}
+
+
+// Déplacement d'un joueur
+int move_player(Map map, Player player, char move){
+    if (move == 'b') {
+        if( map.map[player.place_x][player.place_y+1] != 'x' && map.map[player.place_x][player.place_y+1] != 'm')
+            player.place_y++;
+    }
+}
 
 
 // Return a Map struct from the file
