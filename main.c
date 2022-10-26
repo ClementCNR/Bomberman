@@ -1,29 +1,92 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
-#include "colors.h" // Lib to modify the cli output colors
-
-// used to format the console output to print unicode
 #include <Windows.h>
 
 typedef struct{
-    int defaultBomb;
     int columns;
     int rows;
     char **map;
 } Map;
 
+/* typedef struct {
+ *      int live;
+        int invincible;
+        int heart;
+        int pass_bomb;
+        int bomb_kick;
+        int yellow_fire;
+        int red_fire;
+        int blue_fire;
+        int bomb_up;
+        int bomb_down;
+    } Items;
+*/
+
 typedef struct{
-    int playerID;
     int place_x;
     int place_y;
     int alive;
     int maxBomb;
     int live;
     int invincible;
+    int heart;
+    int pass_bomb;
+    int bomb_kick;
+    int yellow_fire;
+    int red_fire;
+    int blue_fire;
+    int bomb_range;
+    // Items *list_items;
 } Player;
 
+
+
+Player items_take (Map map, int columns,int line,int item_place, Player player) {
+
+    int player_y = player.place_y;
+    int player_x = player.place_x;
+    if (map.map[player_x][player_y] != 'p' && map.map[player_x][player_y] != ' ' && map.map[player_x][player_y] != 'n') {
+        return player;
+    }else if (map.map[player_x][player_y] == 'b'){ // b = une bombe en plus
+        player.maxBomb++;
+    }else if (map.map[player_x][player_y] == 'd'){ // d = une bombe en moins
+        player.maxBomb--;
+    }else if (map.map[player_x][player_y] == 'c') { // c = portée +1
+        player.bomb_range++;
+    }else if(map.map[player_x][player_y] == 'e') { // e = portée -1
+        player.bomb_range--;
+    }else if(map.map[player_x][player_y] == 'r'){ // r = portée max
+        // appel fonction pour mettre la valuer de la bombe au max
+        // au colonne si il y  a plus de colonne ou de ligne ou autre
+    }else if (map.map[player_x][player_y] == 'l' && player.heart == 0 ) { // l = heart
+        player.heart++;
+    }else if (map.map[player_x][player_y] == 'i'){ // i = invincible
+        // Wait turn playing
+    }else if(map.map[player_x][player_y] == 'p'){ // p = pass_bomb
+        if (player.bomb_kick == 1) { // Check si possede l'item de pousser les bomb
+            player.bomb_kick = 0; // retire l'item bomb kick
+        }
+        player.pass_bomb = 1;
+    }
+    else if(map.map[player_x][player_y] == 'k'){ // k = bomb_kick
+        if (player.pass_bomb == 1) { // Check si possede l'item de passer sur les bomb
+            player.pass_bomb = 0; // retire l'item de passer sur les bombes
+        }
+        player.bomb_kick = 1;
+    }
+
+
+}
+
+
+// Déplacement d'un joueur
+int move_player(Map map, Player player, char move){
+    if (move == 'b') {
+        if( map.map[player.place_x][player.place_y+1] != 'x' && map.map[player.place_x][player.place_y+1] != 'm')
+            player.place_y++;
+    }
+}
 
 
 // Return a Map struct from the file
@@ -46,21 +109,17 @@ Map map(int mapNumber){
 
     Map map;
 
+    // LECTURE DE LA 2EME LIGNE QUI CONTIENT LA TAILLE ET LA HAUTEUR
     char line[1024];
-
-
+    fgets(line, 1024, file);
     fgets(line, 1024, file);
 
-    map.defaultBomb = atoi(&line[0]);
 
+    //map.columns = atoi(&line[0]);
+    //map.rows = atoi(&line[2]);
 
-    fgets(line, 1024, file);
-
-    map.columns = atoi(strtok(line, " "));
-    map.rows = atoi(strtok(line, " "));
-
-
-
+    map.columns = 9;
+    map.rows = 5;
 
     // CREATION DU TABLEAU EN 2D
     char** tab = malloc(map.rows * sizeof(char*));
@@ -97,17 +156,12 @@ Map map(int mapNumber){
 // Take a Map struct and print it to stdout
 void printMap(Map map){
 
-    //system("cls");
-
-    red();
-
     SetConsoleOutputCP(65001);
 
-    char *breakable = "▒";
+    char  *breakable = "▒";
     char *unbreakable = "█";
 
     int nbPlayer = 1;
-
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
@@ -128,93 +182,22 @@ void printMap(Map map){
 
         }
         printf("\n");
-
-
-    }
-    reset();
-}
-
-
-
-// Return the number of map created by checking de maps directory
-int nbMapFile(){
-
-    int mapNumber = 1;
-    FILE *file;
-
-    char mapBaseFilename[20] = "maps/map_";
-    char mapFilename[20];
-
-    strcpy(mapFilename, mapBaseFilename);
-    char temp[5];
-    sprintf(temp,"%d",mapNumber);
-
-    strcat(mapFilename, temp);
-    strcat(mapFilename, ".txt");
-
-    file = fopen(mapFilename, "r");
-
-
-    while (file != NULL){
-        mapNumber++;
-        sprintf(temp,"%d",mapNumber);
-
-        strcpy(mapFilename, mapBaseFilename);
-        strcat(mapFilename, temp);
-        strcat(mapFilename, ".txt");
-
-        fclose(file);
-        file = fopen(mapFilename, "r");
     }
 
-    return mapNumber - 1;
 }
-
-
-
-// Display all the maps
-void printAllMaps(){
-    int nbMap = nbMapFile();
-
-    for(int i = 1; i <= nbMap; i++){
-        printf("\n === Map number %d ===\n\n", i);
-        printMap(map(i));
-    }
-}
-
-
-
 
 int main(){
-
     Map myMap;
-    int nbMap = nbMapFile();
+    myMap = map(1);
 
-    int selectedMaps[nbMap];
-    for(int i=0; i<nbMap; i++){
-        selectedMaps[i] = 0;
-    }
-
-
-    int mapNumber = -1;
-    while(mapNumber < 1 || mapNumber > nbMap){
-        system("cls");
-        printAllMaps();
-        printf("\n === Select 1 or more maps (between 1 and %d) ===", nbMap);
-        printf("\n    === Enter 0 to validate your selection ===\n\n");
-        scanf("%d", &mapNumber);
-    }
-
-    system("cls");
-
-    myMap = map(mapNumber);
-
-
+    printf("\n\n");
     printMap(myMap);
 
-    scanf("%d", &mapNumber);
+
+    //printf("\n-\xE2-\x96-\x92-");
+
+    //printf("%c%c%c", '\xE2', '\x96', '\x92');
+
 
     return 0;
-
-    // https://stackoverflow.com/questions/41383062/c-how-to-break-scanf-with-no-enter-and-no-string
 }
