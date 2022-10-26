@@ -55,11 +55,11 @@ build CMakeFiles/Projet.dir/main.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESG
   OBJECT_DIR = CMakeFiles\Projet.dir
   OBJECT_FILE_DIR = CMakeFiles\Projet.dir
 
-build CMakeFiles/Projet.dir/maps/colors.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESGI/Cours/3A/Sem1/Projet/maps/colors.c || cmake_object_order_depends_target_Projet
-  DEP_FILE = CMakeFiles\Projet.dir\maps\colors.c.obj.d
+build CMakeFiles/Projet.dir/colors.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESGI/Cours/3A/Sem1/Projet/colors.c || cmake_object_order_depends_target_Projet
+  DEP_FILE = CMakeFiles\Projet.dir\colors.c.obj.d
   FLAGS = -g -std=gnu99
   OBJECT_DIR = CMakeFiles\Projet.dir
-  OBJECT_FILE_DIR = CMakeFiles\Projet.dir\maps
+  OBJECT_FILE_DIR = CMakeFiles\Projet.dir
 
 
 # =============================================================================
@@ -69,7 +69,7 @@ build CMakeFiles/Projet.dir/maps/colors.c.obj: C_COMPILER__Projet_Debug D$:/Trav
 #############################################
 # Link the executable Projet.exe
 
-build Projet.exe: C_EXECUTABLE_LINKER__Projet_Debug CMakeFiles/Projet.dir/main.c.obj CMakeFiles/Projet.dir/maps/colors.c.obj
+build Projet.exe: C_EXECUTABLE_LINKER__Projet_Debug CMakeFiles/Projet.dir/main.c.obj CMakeFiles/Projet.dir/colors.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Projet.dir

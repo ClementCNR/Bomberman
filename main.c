@@ -1,13 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
+#include <time.h> // used for rand
+#include "colors.h" // Lib to modify the cli output colors
+
+// used to format the console output to print unicode
 #include <Windows.h>
 
+#define CMD_WIDE 120
+
+
+
 typedef struct{
+    int defaultBomb;
     int columns;
     int rows;
     char **map;
-} Map;
+}  Map;
 
 /* typedef struct {
  *      int live;
@@ -24,6 +34,7 @@ typedef struct{
 */
 
 typedef struct{
+    int playerID;
     int place_x;
     int place_y;
     int alive;
@@ -41,6 +52,14 @@ typedef struct{
 } Player;
 
 
+
+int arraySum(int *tab, int size){
+    int sum = 0;
+    for(int i = 0; i < size; i++){
+        sum += tab[i];
+    }
+    return sum;
+}
 
 Player items_take (Map map, int columns,int line,int item_place, Player player) {
 
@@ -99,27 +118,36 @@ Map map(int mapNumber){
     strcat(mapFilename, temp);
     strcat(mapFilename, ".txt");
 
+    Map map;
 
     // OUVERTURE DU FICHIER ET TEST
     FILE *file = fopen(mapFilename, "r");
 
-    /*if (file == NULL) {
-        return NULL;
-    }*/
+    if (file == NULL) {
 
-    Map map;
+        map.defaultBomb = 0;
+        map.columns = 0;
+        map.rows = 0;
+        //map.map = "";
+        return map;
+    }
 
-    // LECTURE DE LA 2EME LIGNE QUI CONTIENT LA TAILLE ET LA HAUTEUR
+
     char line[1024];
+
+
     fgets(line, 1024, file);
+
+    map.defaultBomb = atoi(&line[0]);
+
+
     fgets(line, 1024, file);
 
+    map.columns = atoi(strtok(line, " "));
+    map.rows = atoi(strtok(line, " "));
 
-    //map.columns = atoi(&line[0]);
-    //map.rows = atoi(&line[2]);
 
-    map.columns = 9;
-    map.rows = 5;
+
 
     // CREATION DU TABLEAU EN 2D
     char** tab = malloc(map.rows * sizeof(char*));
@@ -156,48 +184,165 @@ Map map(int mapNumber){
 // Take a Map struct and print it to stdout
 void printMap(Map map){
 
-    SetConsoleOutputCP(65001);
+    //system("cls");
 
+    //purple();
+
+    SetConsoleOutputCP(65001);
     char  *breakable = "▒";
     char *unbreakable = "█";
 
     int nbPlayer = 1;
 
+
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
 
             if(map.map[i][j] == 'p'){
+                white();
                 printf("%d", nbPlayer);
                 nbPlayer++;
             }
             else if (map.map[i][j] == 'x'){
+                red();
                 printf("%s", unbreakable);
             }
             else if (map.map[i][j] == 'm'){
+                cyan();
                 printf("%s", breakable);
             }
             else{
                 printf("%c", map.map[i][j]);
             }
 
+            reset();
         }
         printf("\n");
-    }
 
+
+    }
 }
 
-int main(){
-    Map myMap;
-    myMap = map(1);
 
-    printf("\n\n");
+
+// Return the number of map created by checking the maps directory
+int nbMapFile(){
+
+    int mapNumber = 1;
+    FILE *file;
+
+    char mapBaseFilename[20] = "maps/map_";
+    char mapFilename[20];
+
+    strcpy(mapFilename, mapBaseFilename);
+    char temp[5];
+    sprintf(temp,"%d",mapNumber);
+
+    strcat(mapFilename, temp);
+    strcat(mapFilename, ".txt");
+
+    file = fopen(mapFilename, "r");
+
+
+    while (file != NULL){
+        mapNumber++;
+        sprintf(temp,"%d",mapNumber);
+
+        strcpy(mapFilename, mapBaseFilename);
+        strcat(mapFilename, temp);
+        strcat(mapFilename, ".txt");
+
+        fclose(file);
+        file = fopen(mapFilename, "r");
+    }
+
+    return mapNumber - 1;
+}
+
+
+
+// Display all the maps
+void printAllMaps(){
+    int nbMap = nbMapFile();
+
+    for(int i = 1; i <= nbMap; i++){
+        printf("\n === Map number %d ===\n\n", i);
+        printMap(map(i));
+    }
+}
+
+
+
+
+int main(){
+
+    Map myMap;
+    int nbMapInDir = nbMapFile();
+    int lastPlayedMap = 0;
+
+
+    int selection[nbMapInDir];
+    for(int i=0; i<nbMapInDir; i++){
+        selection[i] = 0;
+    }
+
+
+    int mapNumber = -1;
+    while(mapNumber != 0 && arraySum(selection, nbMapInDir) == 0){
+
+        if (mapNumber >= 1 && mapNumber <= nbMapInDir){
+
+            if (selection[mapNumber - 1] != 1){
+                selection[mapNumber - 1] = 1;
+            }
+            else {
+                selection[mapNumber - 1] = 0;
+            }
+        }
+
+        system("cls");
+        printAllMaps();
+        printf("\n === Select 1 or more maps (between 1 and %d) ===", nbMapInDir);
+        printf("\n    === Enter 0 to validate your selection ===\n\n");
+
+
+        printf("\n\nSelected maps at the moment : ");
+        for (int i=0; i<=nbMapInDir; i++){
+            if (selection[i] == 1){
+                printf("%d ", i+1);
+            }
+        }
+        printf("\n");
+
+        scanf("%d", &mapNumber);
+
+
+
+    }
+
+    system("cls");
+
+    printf("\nmapNumber = %d\n", mapNumber);
+    srand(time(NULL));
+    do {
+        mapNumber = (rand() % nbMapInDir) + 1;
+    } while (selection[mapNumber-1] != 1 && mapNumber != lastPlayedMap);
+    lastPlayedMap = mapNumber;
+    myMap = map(mapNumber);
+
+
     printMap(myMap);
 
 
-    //printf("\n-\xE2-\x96-\x92-");
+    for(int i = 0; i < CMD_WIDE; i++) {
+        printf("=");
+    }
 
-    //printf("%c%c%c", '\xE2', '\x96', '\x92');
+
+    scanf("%d", &mapNumber);
 
 
     return 0;
+
+    // https://stackoverflow.com/questions/41383062/c-how-to-break-scanf-with-no-enter-and-no-string
 }
