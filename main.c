@@ -32,7 +32,7 @@ int arraySum(int *tab, int size){
 }
 
 // Add Item for player
-Player items_take (Map map, int columns,int line,int item_place, Player player) {
+Player items_take (Map map, Player player) {
     // Important revoir la fonction uen fois la structure Items utiliser
     int player_y = player.place_y;
     int player_x = player.place_x;
