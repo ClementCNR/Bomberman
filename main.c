@@ -51,8 +51,6 @@ typedef struct{
     // Items *list_items;
 } Player;
 
-
-
 int arraySum(int *tab, int size){
     int sum = 0;
     for(int i = 0; i < size; i++){
@@ -61,8 +59,9 @@ int arraySum(int *tab, int size){
     return sum;
 }
 
+// Add Item for player
 Player items_take (Map map, int columns,int line,int item_place, Player player) {
-
+    // Important revoir la fonction uen fois la structure Items utiliser
     int player_y = player.place_y;
     int player_x = player.place_x;
     if (map.map[player_x][player_y] != 'p' && map.map[player_x][player_y] != ' ' && map.map[player_x][player_y] != 'n') {
@@ -94,19 +93,30 @@ Player items_take (Map map, int columns,int line,int item_place, Player player) 
         }
         player.bomb_kick = 1;
     }
-
-
 }
 
 
-// Déplacement d'un joueur
+// Player moving
 int move_player(Map map, Player player, char move){
-    if (move == 'b') {
-        if( map.map[player.place_x][player.place_y+1] != 'x' && map.map[player.place_x][player.place_y+1] != 'm')
+    // IMPORTANT ajouter la vérification des items pour les bombs etc
+    if (move == 'z') { // Up mouvement
+        if( map.map[player.place_x][player.place_y-1] != 'x' && map.map[player.place_x][player.place_y-1] != 'm' && map.map[player.place_x][player.place_y-1] != 'p') {
+            player.place_y--;
+        }
+    }else if (move == 'q') { // Left move
+        if( map.map[player.place_x-1][player.place_y] != 'x' && map.map[player.place_x-1][player.place_y] != 'm' && map.map[player.place_x-1][player.place_y] != 'p') {
+            player.place_x--;
+        }
+    }else if(move == 's') { // Down move
+        if( map.map[player.place_x][player.place_y+1] != 'x' && map.map[player.place_x][player.place_y+1] != 'm' && map.map[player.place_x][player.place_y+1] != 'p') {
             player.place_y++;
+        }
+    }else if(move == 'd') { // Right move
+        if( map.map[player.place_x+1][player.place_y] != 'x' && map.map[player.place_x+1][player.place_y] != 'm' && map.map[player.place_x+1][player.place_y] != 'p') {
+            player.place_x++;
+        }
     }
 }
-
 
 // Return a Map struct from the file
 Map map(int mapNumber){
@@ -131,23 +141,16 @@ Map map(int mapNumber){
         //map.map = "";
         return map;
     }
-
-
     char line[1024];
-
 
     fgets(line, 1024, file);
 
     map.defaultBomb = atoi(&line[0]);
 
-
     fgets(line, 1024, file);
 
     map.columns = atoi(strtok(line, " "));
     map.rows = atoi(strtok(line, " "));
-
-
-
 
     // CREATION DU TABLEAU EN 2D
     char** tab = malloc(map.rows * sizeof(char*));
@@ -179,21 +182,15 @@ Map map(int mapNumber){
     return map;
 }
 
-
-
 // Take a Map struct and print it to stdout
 void printMap(Map map){
-
     //system("cls");
-
     //purple();
-
     SetConsoleOutputCP(65001);
     char  *breakable = "▒";
     char *unbreakable = "█";
 
     int nbPlayer = 1;
-
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
@@ -222,8 +219,6 @@ void printMap(Map map){
 
     }
 }
-
-
 
 // Return the number of map created by checking the maps directory
 int nbMapFile(){
@@ -259,8 +254,6 @@ int nbMapFile(){
     return mapNumber - 1;
 }
 
-
-
 // Display all the maps
 void printAllMaps(){
     int nbMap = nbMapFile();
@@ -271,21 +264,16 @@ void printAllMaps(){
     }
 }
 
-
-
-
 int main(){
 
     Map myMap;
     int nbMapInDir = nbMapFile();
     int lastPlayedMap = 0;
 
-
     int selection[nbMapInDir];
     for(int i=0; i<nbMapInDir; i++){
         selection[i] = 0;
     }
-
 
     int mapNumber = -1;
     while(mapNumber != 0 /*&& arraySum(selection, nbMapInDir) == 0*/){
@@ -305,7 +293,6 @@ int main(){
         printf("\n === Select 1 or more maps (between 1 and %d) ===", nbMapInDir);
         printf("\n    === Enter 0 to validate your selection ===\n\n");
 
-
         printf("\n\nSelected maps at the moment : ");
         for (int i=0; i<=nbMapInDir; i++){
             if (selection[i] == 1){
@@ -315,9 +302,6 @@ int main(){
         printf("\n");
 
         scanf("%d", &mapNumber);
-
-
-
     }
     //================================================================================================+
     // THE PLAYER SELECTED THE MAPS WHERE HE WANTED TO PLAY                                           |
@@ -347,6 +331,24 @@ int main(){
 
     scanf("%d", &mapNumber);
 
+    /*  ================================ Player Section ================================ */
+    /*while (map.nb_player =! 1){
+        // Turn play
+        // Move Player
+        // Action en lien
+        // Si mort décrement map.nplayer
+    }*/
+    Player player1;
+    player1.playerID = 1;
+    player1.place_x = 1;
+    player1.place_y = 1;
+    player1.alive = 1;
+    char mover;
+    scanf("%c", &mover);
+    move_player(myMap, player1, mover);
+    system("cls");
+    printMap(myMap);
+    scanf("%c", &mover);
 
     return 0;
 
