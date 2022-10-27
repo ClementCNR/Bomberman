@@ -288,7 +288,7 @@ int main(){
 
 
     int mapNumber = -1;
-    while(mapNumber != 0 && arraySum(selection, nbMapInDir) == 0){
+    while(mapNumber != 0 /*&& arraySum(selection, nbMapInDir) == 0*/){
 
         if (mapNumber >= 1 && mapNumber <= nbMapInDir){
 
@@ -319,10 +319,14 @@ int main(){
 
 
     }
+    //================================================================================================+
+    // THE PLAYER SELECTED THE MAPS WHERE HE WANTED TO PLAY                                           |
+    // NOW WE PICK A RANDOM MAP IN THIS SELECTION WHILE AVOIDING TO PICK THE LAST PLAYED MAP          |
+    //================================================================================================+
 
     system("cls");
 
-    printf("\nmapNumber = %d\n", mapNumber);
+    //printf("\nmapNumber = %d\n", mapNumber);
     srand(time(NULL));
     do {
         mapNumber = (rand() % nbMapInDir) + 1;
@@ -337,6 +341,8 @@ int main(){
     for(int i = 0; i < CMD_WIDE; i++) {
         printf("=");
     }
+
+    printf("\n\n");
 
 
     scanf("%d", &mapNumber);
