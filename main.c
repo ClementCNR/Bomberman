@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <conio.h>
 #include <time.h> // used for rand
-#include "colors.h" // Lib to modify the cli output colors
+#include "lib/view.h"
+#include "lib/model.h"
 
-// used to format the console output to print unicode
-#include <Windows.h>
 
 #define CMD_WIDE 120
 
 
-
+/*#ifndef Map
+#define Map
 typedef struct{
     int defaultBomb;
     int columns;
     int rows;
     char **map;
 }  Map;
+#endif*/
 
 /* typedef struct {
  *      int live;
@@ -33,7 +33,7 @@ typedef struct{
     } Items;
 */
 
-typedef struct{
+/*typedef struct{
     int playerID;
     int place_x;
     int place_y;
@@ -49,7 +49,7 @@ typedef struct{
     int blue_fire;
     int bomb_range;
     // Items *list_items;
-} Player;
+} Player;*/
 
 int arraySum(int *tab, int size){
     int sum = 0;
@@ -118,6 +118,7 @@ int move_player(Map map, Player player, char move){
     }
 }
 
+/*
 // Return a Map struct from the file
 Map map(int mapNumber){
     // FORMATAGE DU NOM DU FICHIER DE MAP
@@ -181,7 +182,9 @@ Map map(int mapNumber){
 
     return map;
 }
+*/
 
+/*
 // Take a Map struct and print it to stdout
 void printMap(Map map){
     //system("cls");
@@ -219,7 +222,9 @@ void printMap(Map map){
 
     }
 }
+*/
 
+/*
 // Return the number of map created by checking the maps directory
 int nbMapFile(){
 
@@ -253,8 +258,9 @@ int nbMapFile(){
 
     return mapNumber - 1;
 }
+*/
 
-// Display all the maps
+/*// Display all the maps
 void printAllMaps(){
     int nbMap = nbMapFile();
 
@@ -262,7 +268,7 @@ void printAllMaps(){
         printf("\n === Map number %d ===\n\n", i);
         printMap(map(i));
     }
-}
+}*/
 
 int main(){
 
