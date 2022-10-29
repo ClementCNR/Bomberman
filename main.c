@@ -9,6 +9,18 @@
 
 #define CMD_WIDE 120
 
+typedef struct{
+    int statusGame;
+    int playerNumber;
+}  Game;
+
+typedef struct{
+    int defaultBomb;
+    int columns;
+    int rows;
+    char **map;
+}  Map;
+
 /* typedef struct {
  *      int live;
         int invincible;
@@ -158,7 +170,7 @@ Map map(int mapNumber){
 
 /*
 // Take a Map struct and print it to stdout
-void printMap(Map map){
+void printMap(Map map, Game game, Player player){
     //system("cls");
     //purple();
     SetConsoleOutputCP(65001);
@@ -245,12 +257,16 @@ void printAllMaps(){
 int main(){
 
     Map myMap;
+    Game myGame;
     int nbMapInDir = nbMapFile();
     if(nbMapInDir==0){
         printf("\nNo map files where found.\nPlease verify the integrity of the project.\n");
         return -1;
     }
     int lastPlayedMap = 0;
+
+    // Nombre de joueur dans la partie
+    scanf("%d", &myGame.playerNumber);
 
     int selection[nbMapInDir];
     for(int i=0; i<nbMapInDir; i++){
@@ -264,6 +280,7 @@ int main(){
     while(mapNumber != 0 && arraySum(selection, nbMapInDir) == 0){
 
         if (mapNumber >= 1 && mapNumber <= nbMapInDir){
+
             if (selection[mapNumber - 1] != 1){
                 selection[mapNumber - 1] = 1;
             }
@@ -315,24 +332,33 @@ int main(){
 
     scanf("%d", &mapNumber);
 
+    /*  ================================ Start Section ================================ */
+
+    if (playerNb != 0 && mapNumber != NULL){
+        myGame.statusGame = 1;
+    }
+
     /*  ================================ Player Section ================================ */
-    /*while (map.nb_player =! 1){
-        // Turn play
-        // Move Player
-        // Action en lien
-        // Si mort décrement map.nplayer
-    }*/
-    Player player1;
-    player1.playerID = 1;
-    player1.place_x = 1;
-    player1.place_y = 1;
-    player1.alive = 1;
-    char mover;
-    scanf("%c", &mover);
-    move_player(myMap, player1, mover);
-    system("cls");
-    printMap(myMap);
-    scanf("%c", &mover);
+    if (myGame.statusGame == 1){
+        /*while (map.nb_player =! 1){
+            // Turn play
+            // Move Player
+            // Action en lien
+            // Si mort décrement map.nplayer
+        }*/
+        Player player1;
+        player1.playerID = 1;
+        player1.place_x = 1;
+        player1.place_y = 1;
+        player1.alive = 1;
+
+        char mover;
+        scanf("%c", &mover);
+        move_player(myMap, player1, mover);
+        system("cls");
+        printMap(myMap);
+        scanf("%c", &mover);
+    }
 
     return 0;
 
