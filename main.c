@@ -4,20 +4,10 @@
 #include <time.h> // used for rand
 #include "lib/view.h"
 #include "lib/model.h"
+#include "lib/controller.h"
 
 
 #define CMD_WIDE 120
-
-
-/*#ifndef Map
-#define Map
-typedef struct{
-    int defaultBomb;
-    int columns;
-    int rows;
-    char **map;
-}  Map;
-#endif*/
 
 /* typedef struct {
  *      int live;
@@ -32,24 +22,6 @@ typedef struct{
         int bomb_down;
     } Items;
 */
-
-/*typedef struct{
-    int playerID;
-    int place_x;
-    int place_y;
-    int alive;
-    int maxBomb;
-    int live;
-    int invincible;
-    int heart;
-    int pass_bomb;
-    int bomb_kick;
-    int yellow_fire;
-    int red_fire;
-    int blue_fire;
-    int bomb_range;
-    // Items *list_items;
-} Player;*/
 
 int arraySum(int *tab, int size){
     int sum = 0;
@@ -274,6 +246,10 @@ int main(){
 
     Map myMap;
     int nbMapInDir = nbMapFile();
+    if(nbMapInDir==0){
+        printf("\nNo map files where found.\nPlease verify the integrity of the project.\n");
+        return -1;
+    }
     int lastPlayedMap = 0;
 
     int selection[nbMapInDir];
@@ -281,11 +257,13 @@ int main(){
         selection[i] = 0;
     }
 
+
+
+    // MAPS SELECTION LOOP
     int mapNumber = -1;
-    while(mapNumber != 0 /*&& arraySum(selection, nbMapInDir) == 0*/){
+    while(mapNumber != 0 && arraySum(selection, nbMapInDir) == 0){
 
         if (mapNumber >= 1 && mapNumber <= nbMapInDir){
-
             if (selection[mapNumber - 1] != 1){
                 selection[mapNumber - 1] = 1;
             }

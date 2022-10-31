@@ -61,17 +61,23 @@ build CMakeFiles/Projet.dir/lib/colors.c.obj: C_COMPILER__Projet_Debug D$:/Trava
   OBJECT_DIR = CMakeFiles\Projet.dir
   OBJECT_FILE_DIR = CMakeFiles\Projet.dir\lib
 
-build CMakeFiles/Projet.dir/view.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESGI/Cours/3A/Sem1/Projet/view.c || cmake_object_order_depends_target_Projet
-  DEP_FILE = CMakeFiles\Projet.dir\view.c.obj.d
+build CMakeFiles/Projet.dir/lib/view.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESGI/Cours/3A/Sem1/Projet/lib/view.c || cmake_object_order_depends_target_Projet
+  DEP_FILE = CMakeFiles\Projet.dir\lib\view.c.obj.d
   FLAGS = -g -std=gnu99
   OBJECT_DIR = CMakeFiles\Projet.dir
-  OBJECT_FILE_DIR = CMakeFiles\Projet.dir
+  OBJECT_FILE_DIR = CMakeFiles\Projet.dir\lib
 
-build CMakeFiles/Projet.dir/model.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESGI/Cours/3A/Sem1/Projet/model.c || cmake_object_order_depends_target_Projet
-  DEP_FILE = CMakeFiles\Projet.dir\model.c.obj.d
+build CMakeFiles/Projet.dir/lib/model.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESGI/Cours/3A/Sem1/Projet/lib/model.c || cmake_object_order_depends_target_Projet
+  DEP_FILE = CMakeFiles\Projet.dir\lib\model.c.obj.d
   FLAGS = -g -std=gnu99
   OBJECT_DIR = CMakeFiles\Projet.dir
-  OBJECT_FILE_DIR = CMakeFiles\Projet.dir
+  OBJECT_FILE_DIR = CMakeFiles\Projet.dir\lib
+
+build CMakeFiles/Projet.dir/lib/controller.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ESGI/Cours/3A/Sem1/Projet/lib/controller.c || cmake_object_order_depends_target_Projet
+  DEP_FILE = CMakeFiles\Projet.dir\lib\controller.c.obj.d
+  FLAGS = -g -std=gnu99
+  OBJECT_DIR = CMakeFiles\Projet.dir
+  OBJECT_FILE_DIR = CMakeFiles\Projet.dir\lib
 
 
 # =============================================================================
@@ -81,7 +87,7 @@ build CMakeFiles/Projet.dir/model.c.obj: C_COMPILER__Projet_Debug D$:/Travail/ES
 #############################################
 # Link the executable Projet.exe
 
-build Projet.exe: C_EXECUTABLE_LINKER__Projet_Debug CMakeFiles/Projet.dir/main.c.obj CMakeFiles/Projet.dir/lib/colors.c.obj CMakeFiles/Projet.dir/view.c.obj CMakeFiles/Projet.dir/model.c.obj
+build Projet.exe: C_EXECUTABLE_LINKER__Projet_Debug CMakeFiles/Projet.dir/main.c.obj CMakeFiles/Projet.dir/lib/colors.c.obj CMakeFiles/Projet.dir/lib/view.c.obj CMakeFiles/Projet.dir/lib/model.c.obj CMakeFiles/Projet.dir/lib/controller.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Projet.dir

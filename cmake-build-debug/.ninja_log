@@ -1,11 +1,10 @@
 # ninja log v5
-4	400	6886627976944153	CMakeFiles/Projet.dir/main.c.obj	cc9b73fdab1719a7
-3	320	6886628047556648	CMakeFiles/Projet.dir/model.c.obj	ac085341279dea
-320	529	6886628049566163	Projet.exe	c9c214cd6abe56d0
-24	1446	6886627987463581	CMakeFiles/Projet.dir/view.c.obj	d42eadf956d17627
-217	588	6886628912747093	build.ninja	8e511e0fecc65d89
-39	581	6886576698220651	CMakeFiles/Projet.dir/colors.c.obj	9d268d0beb8b0e47
-2	494	6886628912747093	build.ninja	8e511e0fecc65d89
+5	384	6887760159276485	CMakeFiles/Projet.dir/main.c.obj	cc9b73fdab1719a7
 27	403	6886628918820829	CMakeFiles/Projet.dir/lib/colors.c.obj	1905de200e90985f
+385	820	6887760163574976	Projet.exe	cd26d9bc802edc59
+3	320	6886628047556648	CMakeFiles/Projet.dir/model.c.obj	ac085341279dea
+1	460	6889387956429995	build.ninja	8e511e0fecc65d89
 5	1300	6886628927808365	CMakeFiles/Projet.dir/view.c.obj	d42eadf956d17627
-1301	1511	6886628929835615	Projet.exe	355b290ee2b0be7f
+39	581	6886576698220651	CMakeFiles/Projet.dir/colors.c.obj	9d268d0beb8b0e47
+18	522	6886639656675492	CMakeFiles/Projet.dir/lib/model.c.obj	217dcc1519829ea7
+2	1579	6886639667208576	CMakeFiles/Projet.dir/lib/view.c.obj	4287e9e8787c8900
