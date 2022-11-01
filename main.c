@@ -12,6 +12,7 @@
 typedef struct{
     int statusGame;
     int playerNumber;
+    int turn;
 }  Game;
 
 typedef struct{
@@ -334,18 +335,19 @@ int main(){
 
     /*  ================================ Start Section ================================ */
 
-    if (playerNb != 0 && mapNumber != NULL){
+    if (myGame.playerNumber != 0 && mapNumber != NULL){
         myGame.statusGame = 1;
     }
 
     /*  ================================ Player Section ================================ */
     if (myGame.statusGame == 1){
-        /*while (map.nb_player =! 1){
-            // Turn play
+        myGame.turn = 0;
+        while (myGame.statusGame ){
+            myGame.turn++;
             // Move Player
             // Action en lien
             // Si mort décrement map.nplayer
-        }*/
+        }
         Player player1;
         player1.playerID = 1;
         player1.place_x = 1;
