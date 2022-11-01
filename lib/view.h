@@ -11,6 +11,8 @@ void printMap(Map map);
 
 void printAllMaps();
 
+void printHomePage();
+
 
 
 #endif //PROJET_VIEW_H

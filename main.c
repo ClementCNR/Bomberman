@@ -8,19 +8,7 @@
 
 #define CMD_WIDE 120
 
-/* typedef struct {
- *      int live;
-        int invincible;
-        int heart;
-        int pass_bomb;
-        int bomb_kick;
-        int yellow_fire;
-        int red_fire;
-        int blue_fire;
-        int bomb_up;
-        int bomb_down;
-    } Items;
-*/
+
 
 int arraySum(int *tab, int size){
     int sum = 0;
@@ -303,6 +291,8 @@ void printAllMaps(){
 }*/
 
 int main(){
+
+    printHomePage();
 
     Map myMap;
     Game myGame;

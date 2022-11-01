@@ -56,3 +56,22 @@ void printAllMaps(){
         printMap(map(i));
     }
 }
+
+// Pretty land page, enter 0 to exit
+void printHomePage(){
+    system("cls");
+    printf(" ___  ___  __  __ ___ ___ ___ __  __   _   _  _\n");
+    printf("| _ )/ _ \\|  \\/  | _ ) __| _ \\  \\/  | /_\\ | \\| |\n");
+    printf("| _ \\ (_) | |\\/| | _ \\ _||   / |\\/| |/ _ \\| .` |\n");
+    printf("|___/\\___/|_|  |_|___/___|_|_\\_|  |_/_/ \\_\\_|\\_|\n\n");
+
+    printf("=============== PRESS 0 TO QUIT ================\n\n");
+
+    int input = 0;
+    scanf("%d", &input);
+
+    if(input == 0){
+        exit(0);
+    }
+
+}

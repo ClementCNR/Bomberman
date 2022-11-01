@@ -9,5 +9,7 @@
 
 Map map(int mapNumber);
 
+Map modifyMap(Map mapToModify);
+
 int nbMapFile();
 #endif //PROJET_MODEL_H
