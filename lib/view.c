@@ -9,7 +9,7 @@
 #include "model.h"
 
 // Take a Map struct and print it to stdout
-void printMap(Map map){
+void printMap(Map map, Game myGame, Player player){
     //system("cls");
     //purple();
     SetConsoleOutputCP(65001);
@@ -20,6 +20,7 @@ void printMap(Map map){
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
+
 
             if(map.map[i][j] == 'p'){
                 white();

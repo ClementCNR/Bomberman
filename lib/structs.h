@@ -30,4 +30,13 @@ typedef struct{
     // Items *list_items;
 } Player;
 
+typedef struct{
+    int statusGame;
+    int playerNumber;
+    int turn;
+    Map mapPlayed;
+    Player **playerList;
+}  Game;
+
+
 #endif //PROJET_STRUCTS_H
