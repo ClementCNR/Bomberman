@@ -7,6 +7,7 @@
 
 typedef struct{
     int defaultBomb;
+    int maxPlayer;
     int columns;
     int rows;
     char **map;
@@ -43,6 +44,13 @@ typedef struct{
     int bomb_range;
     // Items *list_items;
 } Player;
+
+typedef struct Node Node;
+struct Node {
+    Player player;
+    Node *next;
+};
+
 
 typedef struct{
     int statusGame;

@@ -6,6 +6,7 @@
 #include "lib/model.h"
 #include "lib/controller.h"
 
+
 #define CMD_WIDE 120
 
 
@@ -19,33 +20,13 @@ int arraySum(int *tab, int size){
 }
 
 // Add Item for player
-Player items_take(Map map, Player player) {
+Player items_take (Map map, int columns,int line,int item_place, Player player) {
     // Important revoir la fonction uen fois la structure Items utiliser
-    /*if (map.map[player_x][player_y] == 'p' && map.map[player_x][player_y] != ' ' && map.map[player_x][player_y] != 'n') {
+    int player_y = player.place_y;
+    int player_x = player.place_x;
+    if (map.map[player_x][player_y] != 'p' && map.map[player_x][player_y] != ' ' && map.map[player_x][player_y] != 'n') {
         return player;
-    }else*/
-    switch (map.map[player.place_x][player.place_y]){
-        case ('b') : player.maxBomb++;
-        case ('d') : player.maxBomb--;
-        case ('c') : player.bomb_range++;
-        case ('e') : player.bomb_range--;
-        case ('r') : // appel fonction pour mettre la valuer de la bombe au max
-                     // au colonne si il y  a plus de colonne ou de ligne ou autre
-        case ('l') : if (player.heart == 0 ) { // l = heart
-                         player.heart++;
-                     }
-        case ('i') : // Wait turn playing
-        case ('p') : if (player.bomb_kick == 1) { // Check si possede l'item de pousser les bomb
-                         player.bomb_kick = 0; // retire l'item bomb kick
-                     }
-                     player.pass_bomb = 1;
-        case ('k') : if (player.pass_bomb == 1) { // Check si possede l'item de passer sur les bomb
-                         player.pass_bomb = 0; // retire l'item de passer sur les bombes
-                     }
-                     player.bomb_kick = 1;
-    }
-    return player;/*
-    if (map.map[player_x][player_y] == 'b'){ // b = une bombe en plus
+    }else if (map.map[player_x][player_y] == 'b'){ // b = une bombe en plus
         player.maxBomb++;
     }else if (map.map[player_x][player_y] == 'd'){ // d = une bombe en moins
         player.maxBomb--;
@@ -72,69 +53,29 @@ Player items_take(Map map, Player player) {
         }
         player.bomb_kick = 1;
     }
-    return player;*/
 }
 
 
 // Player moving
-Player move_player(Map map, Player player, char move){
+int move_player(Map map, Player player, char move){
     // IMPORTANT ajouter la vérification des items pour les bombs etc
-    switch (move){
-        case ('z') : if (player.alive >= 1 ) { // Up mouvement
-                        if (map.map[player.place_x][player.place_y - 1] != 'x' &&
-                            map.map[player.place_x][player.place_y - 1] != 'm' &&
-                            map.map[player.place_x][player.place_y - 1] != 'p') {
-                            player.place_y--;
-                            items_take(map, player);
-                        }
-                     }
-        case ('q') : if (player.alive >= 1) { // Left move
-                        if (map.map[player.place_x - 1][player.place_y] != 'x' &&
-                            map.map[player.place_x - 1][player.place_y] != 'm' &&
-                            map.map[player.place_x - 1][player.place_y] != 'p') {
-                            player.place_x--;
-                            items_take(map, player);
-                        }
-                     }
-        case ('s') : if(player.alive >= 1 ) { // Down move
-                        if( map.map[player.place_x][player.place_y+1] != 'x' &&
-                            map.map[player.place_x][player.place_y+1] != 'm' &&
-                            map.map[player.place_x][player.place_y+1] != 'p') {
-                            player.place_y++;
-                            items_take(map, player);
-                        }
-                     }
-        case ('d') : if(move == 'd' && player.alive >= 1 ) { // Right move
-                        if (map.map[player.place_x + 1][player.place_y] != 'x' &&
-                            map.map[player.place_x + 1][player.place_y] != 'm' &&
-                            map.map[player.place_x + 1][player.place_y] != 'p') {
-                            player.place_x++;
-                            items_take(map, player);
-                        }
-                    }
-    }
-    return player;
-    /*if (move == 'z' && player.alive >= 1 ) { // Up mouvement
+    if (move == 'z') { // Up mouvement
         if( map.map[player.place_x][player.place_y-1] != 'x' && map.map[player.place_x][player.place_y-1] != 'm' && map.map[player.place_x][player.place_y-1] != 'p') {
             player.place_y--;
-            items_take(map, player);
         }
-    }else if (move == 'q' && player.alive >= 1) { // Left move
+    }else if (move == 'q') { // Left move
         if( map.map[player.place_x-1][player.place_y] != 'x' && map.map[player.place_x-1][player.place_y] != 'm' && map.map[player.place_x-1][player.place_y] != 'p') {
             player.place_x--;
-            items_take(map, player);
         }
-    }else if(move == 's' && player.alive >= 1 ) { // Down move
+    }else if(move == 's') { // Down move
         if( map.map[player.place_x][player.place_y+1] != 'x' && map.map[player.place_x][player.place_y+1] != 'm' && map.map[player.place_x][player.place_y+1] != 'p') {
             player.place_y++;
-            items_take(map, player);
         }
-    }else if(move == 'd' && player.alive >= 1 ) { // Right move
+    }else if(move == 'd') { // Right move
         if( map.map[player.place_x+1][player.place_y] != 'x' && map.map[player.place_x+1][player.place_y] != 'm' && map.map[player.place_x+1][player.place_y] != 'p') {
             player.place_x++;
-            items_take(map, player);
         }
-    }*/
+    }
 }
 
 /*
@@ -205,7 +146,7 @@ Map map(int mapNumber){
 
 /*
 // Take a Map struct and print it to stdout
-void printMap(Map map, Game game, Player player){
+void printMap(Map map){
     //system("cls");
     //purple();
     SetConsoleOutputCP(65001);
@@ -216,6 +157,7 @@ void printMap(Map map, Game game, Player player){
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
+
             if(map.map[i][j] == 'p'){
                 white();
                 printf("%d", nbPlayer);
@@ -241,8 +183,6 @@ void printMap(Map map, Game game, Player player){
     }
 }
 */
-
-
 
 /*
 // Return the number of map created by checking the maps directory
@@ -294,6 +234,31 @@ int main(){
 
     printHomePage();
 
+
+    Node *node = NULL;
+
+
+    Map activeMap = map(1);
+
+
+    node = initPlayerList(node, activeMap);
+    ll_print(node);
+    ll_free(node);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Map myMap;
     Game myGame;
     int nbMapInDir = nbMapFile();
@@ -318,7 +283,6 @@ int main(){
     while(mapNumber != 0 && arraySum(selection, nbMapInDir) == 0){
 
         if (mapNumber >= 1 && mapNumber <= nbMapInDir){
-
             if (selection[mapNumber - 1] != 1){
                 selection[mapNumber - 1] = 1;
             }
@@ -377,19 +341,19 @@ int main(){
     }
 
     /*  ================================ Player Section ================================ */
-    if (myGame.statusGame == 1){
+    /*if (myGame.statusGame == 1){
         myGame.turn = 0;
         char mover;
         char ac;
         while (myGame.statusGame ){
             for (int i = 0; i < 1; i++){
                 scanf("%c", &mover);
-                move_player(myMap, /* Work ing progress */, mover);
-                items_take(myMap, /*player*/);
+                move_player(myMap, , mover);
+                //items_take(myMap, );
                 scanf("%c", &ac);
                 switch (ac){
-                    case ' ': put_bomb(myMap , /* Player */);
-                    case 'r': /* Ne rien faire*/ ;
+                    //case ' ': put_bomb(myMap , );
+                    case 'r':  ;
                 }
                 // Si mort décrement map.nplayer
                 myGame.turn++;
@@ -398,7 +362,7 @@ int main(){
         system("cls");
         printMap(myMap);
         scanf("%c", &mover);
-    }
+    }*/
 
     return 0;
 

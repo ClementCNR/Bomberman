@@ -57,7 +57,7 @@ void printAllMaps(){
     }
 }
 
-// Pretty land page, enter 0 to exit
+// Pretty land page, enter 0 to exit the game
 void printHomePage(){
     system("cls");
     printf(" ___  ___  __  __ ___ ___ ___ __  __   _   _  _\n");
