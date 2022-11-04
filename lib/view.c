@@ -60,10 +60,7 @@ void printAllMaps(){
 // Pretty land page, enter 0 to exit the game
 void printHomePage(){
     system("cls");
-    printf(" ___  ___  __  __ ___ ___ ___ __  __   _   _  _\n");
-    printf("| _ )/ _ \\|  \\/  | _ ) __| _ \\  \\/  | /_\\ | \\| |\n");
-    printf("| _ \\ (_) | |\\/| | _ \\ _||   / |\\/| |/ _ \\| .` |\n");
-    printf("|___/\\___/|_|  |_|___/___|_|_\\_|  |_/_/ \\_\\_|\\_|\n\n");
+    bomberman();
 
     printf("=============== PRESS 0 TO QUIT ================\n\n");
 
@@ -74,4 +71,38 @@ void printHomePage(){
         exit(0);
     }
 
+}
+
+// Choice between solo, host or join a game
+int mainMenu(){
+    int result = 0;
+    while(result < 1 || result > 4){
+        system("cls");
+        bomberman();
+        printf("================== Main Menu ===================\n\n");
+
+        printf("1 - Solo Game\n\n");
+        printf("2 - Host a Game\n\n");
+        printf("3 - Join a Game\n\n");
+        printf("4 - Quit\n\n");
+
+        scanf("%d", &result);
+
+
+    }
+    return result;
+
+}
+
+// ASCII Art BOMBERMAN
+void bomberman(){
+    red();
+    printf(" ___  ___  __  __ ___ ___ ___ __  __   _   _  _\n");
+    yellow();
+    printf("| _ )/ _ \\|  \\/  | _ ) __| _ \\  \\/  | /_\\ | \\| |\n");
+    green();
+    printf("| _ \\ (_) | |\\/| | _ \\ _||   / |\\/| |/ _ \\| .` |\n");
+    blue();
+    printf("|___/\\___/|_|  |_|___/___|_|_\\_|  |_/_/ \\_\\_|\\_|\n\n");
+    reset();
 }

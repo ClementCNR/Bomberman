@@ -13,6 +13,8 @@ void printAllMaps();
 
 void printHomePage();
 
+int mainMenu();
 
+void bomberman();
 
 #endif //PROJET_VIEW_H
