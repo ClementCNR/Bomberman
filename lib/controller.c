@@ -3,7 +3,7 @@
 //
 
 #include "controller.h"
-
+#include <stdio.h>
 
 // Player moving
 int move_player(Map map, Player player, char move){
@@ -61,5 +61,46 @@ Player items_take (Map map, int columns,int line,int item_place, Player player) 
             player.pass_bomb = 0; // retire l'item de passer sur les bombes
         }
         player.bomb_kick = 1;
+    }
+}
+
+
+void movePlayerUp(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_x--;
+            break;
+        }
+        playerList = playerList->next;
+    }
+}
+
+void movePlayerDown(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_x++;
+            break;
+        }
+        playerList = playerList->next;
+    }
+}
+
+void movePlayerLeft(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_y--;
+            break;
+        }
+        playerList = playerList->next;
+    }
+}
+
+void movePlayerRight(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_y++;
+            break;
+        }
+        playerList = playerList->next;
     }
 }

@@ -32,32 +32,16 @@ int main(){
     }
 
 
+    /*Map activeMap = map(3);
+
     Node *node = NULL;
-
-
-    Map activeMap = map(1);
-
-
     node = initPlayerList(node, activeMap);
     ll_print(node);
-    ll_free(node);
-
-
-
-
-
-
-
-
-
-
-
-
+    ll_free(node);*/
 
 
 
     Map myMap;
-    Game myGame;
     int nbMapInDir = nbMapFile();
     if(nbMapInDir==0){
         system("cls");
@@ -65,9 +49,6 @@ int main(){
         return -1;
     }
     int lastPlayedMap = 0;
-
-    // Nombre de joueur dans la partie
-    scanf("%d", &myGame.playerNumber);
 
     int selection[nbMapInDir];
     for(int i=0; i<nbMapInDir; i++){
@@ -119,48 +100,52 @@ int main(){
     lastPlayedMap = mapNumber;
     myMap = map(mapNumber);
 
+    Node *node = NULL;
+    node = initPlayerList(node, myMap);
+
 
     printMap(myMap);
 
 
-    for(int i = 0; i < CMD_WIDE; i++) {
+  /*  for(int i = 0; i < CMD_WIDE; i++) {
         printf("=");
-    }
+    }*/
 
     printf("\n\n");
 
 
     scanf("%d", &mapNumber);
 
-    /*  ================================ Start Section ================================ */
 
-    if (myGame.playerNumber != 0 && mapNumber != NULL){
-        myGame.statusGame = 1;
-    }
+    //node->player.place_y--;
+    movePlayerUp(node, 2);
+    movePlayerDown(node, 1);
+
+    printMapGame(myMap, node);
+    ll_print(node);
+    scanf("%d", &mapNumber);
+
+
+    exit(0);
 
     /*  ================================ Player Section ================================ */
-    /*if (myGame.statusGame == 1){
-        myGame.turn = 0;
-        char mover;
-        char ac;
-        while (myGame.statusGame ){
-            for (int i = 0; i < 1; i++){
-                scanf("%c", &mover);
-                move_player(myMap, , mover);
-                //items_take(myMap, );
-                scanf("%c", &ac);
-                switch (ac){
-                    //case ' ': put_bomb(myMap , );
-                    case 'r':  ;
-                }
-                // Si mort décrement map.nplayer
-                myGame.turn++;
-            }
-        }
-        system("cls");
-        printMap(myMap);
-        scanf("%c", &mover);
+    /*while (map.nb_player =! 1){
+        // Turn play
+        // Move Player
+        // Action en lien
+        // Si mort décrement map.nplayer
     }*/
+    Player player1;
+    player1.playerID = 1;
+    player1.place_x = 1;
+    player1.place_y = 1;
+    player1.alive = 1;
+    char mover;
+    scanf("%c", &mover);
+    move_player(myMap, player1, mover);
+    system("cls");
+    printMap(myMap);
+    scanf("%c", &mover);
 
     return 0;
 

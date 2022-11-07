@@ -106,3 +106,54 @@ void bomberman(){
     printf("|___/\\___/|_|  |_|___/___|_|_\\_|  |_/_/ \\_\\_|\\_|\n\n");
     reset();
 }
+
+
+void printMapGame(Map map, Node *playerList){
+    //system("cls");
+    //purple();
+    SetConsoleOutputCP(65001);
+    char  *breakable = "▒";
+    char *unbreakable = "█";
+
+    Node *loop = playerList;
+    int found = 0;
+
+    for(int i = 0; i < map.rows; i++){
+        for(int j = 0; j < map.columns; j++){
+
+            loop = playerList;
+            found = 0;
+            while(loop != NULL){
+                if(loop->player.place_x == i && loop->player.place_y == j){
+                    white();
+                    printf("%d", loop->player.playerID);
+                    found = 1;
+                    break;
+                }
+                loop = loop->next;
+            }
+
+            if(found == 1){}
+            else if(map.map[i][j] == 'p'){
+                white();
+                printf(" ");
+            }
+            else if (map.map[i][j] == 'x'){
+                red();
+                printf("%s", unbreakable);
+            }
+            else if (map.map[i][j] == 'm'){
+                cyan();
+                printf("%s", breakable);
+            }
+            else{
+                printf("%c", map.map[i][j]);
+            }
+
+            reset();
+        }
+        printf("\n");
+
+
+    }
+}

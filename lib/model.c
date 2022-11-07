@@ -139,14 +139,25 @@ Node *initPlayerList(Node *first, Map map){
 
     int playerID = 0;
     Player player;
+    player.alive = 1;
+    player.maxBomb = map.defaultBomb;
+    player.live = 1;
+    player.invincible = 0;
+    player.heart = 1;
+    player.pass_bomb = 0;
+    player.bomb_kick = 0;
+    player.yellow_fire = 0;
+    player.red_fire = 0;
+    player.blue_fire = 0;
+    player.bomb_range = 0;
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
             if(map.map[i][j] == 'p'){
                 playerID++;
                 player.playerID = playerID;
-                player.place_x = j;
-                player.place_y = i;
+                player.place_x = i;
+                player.place_y = j;
                 first = ll_push_front(first, player);
             }
         }

@@ -17,4 +17,12 @@ int move_player(Map map, Player player, char move);
 
 Player items_take (Map map, int columns,int line,int item_place, Player player);
 
+void movePlayerUp(Node *playerList, int playerToMoveID);
+
+void movePlayerDown(Node *playerList, int playerToMoveID);
+
+void movePlayerLeft(Node *playerList, int playerToMoveID);
+
+void movePlayerRight(Node *playerList, int playerToMoveID);
+
 #endif //PROJET_CONTROLLER_H

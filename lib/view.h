@@ -9,6 +9,8 @@
 
 void printMap(Map map);
 
+void printMapGame(Map map, Node *playerList);
+
 void printAllMaps();
 
 void printHomePage();
