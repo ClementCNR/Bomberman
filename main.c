@@ -24,21 +24,13 @@ int arraySum(int *tab, int size){
 
 int main(){
 
+
     printHomePage();
     int mainMenuSelection;
     mainMenuSelection = mainMenu();
     if(mainMenuSelection == 4){
         exit(0);
     }
-
-
-    /*Map activeMap = map(3);
-
-    Node *node = NULL;
-    node = initPlayerList(node, activeMap);
-    ll_print(node);
-    ll_free(node);*/
-
 
 
     Map myMap;
@@ -118,14 +110,23 @@ int main(){
 
 
     //node->player.place_y--;
-    movePlayerUp(node, 2);
+    movePlayerDown(node, 1);
+    movePlayerUp(node, 1);
     movePlayerDown(node, 1);
 
+    system("cls");
     printMapGame(myMap, node);
     ll_print(node);
+
+
     scanf("%d", &mapNumber);
 
 
+    printf("joueur %d : %d", node->player.playerID, node->player.alive);
+
+    scanf("%d", &mapNumber);
+
+    ll_free(node);
     exit(0);
 
     /*  ================================ Player Section ================================ */

@@ -5,6 +5,20 @@
 #ifndef PROJET_STRUCTS_H
 #define PROJET_STRUCTS_H
 
+#define BombUp 1
+#define BombDown 2
+
+#define YellowFlame 3
+#define BlueFlame 4
+#define RedFlame 5
+
+#define BombPass 6
+#define Bombkick 7
+
+#define Invicibility 8
+#define Heart 9
+#define Life 10
+
 typedef struct{
     int defaultBomb;
     int maxPlayer;

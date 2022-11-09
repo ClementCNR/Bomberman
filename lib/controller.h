@@ -25,4 +25,8 @@ void movePlayerLeft(Node *playerList, int playerToMoveID);
 
 void movePlayerRight(Node *playerList, int playerToMoveID);
 
+int checkPlayerAlive(Node *playerList);
+
+void killPlayer(Node *playerList, int playerToKillID);
+
 #endif //PROJET_CONTROLLER_H

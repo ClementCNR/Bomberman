@@ -104,3 +104,22 @@ void movePlayerRight(Node *playerList, int playerToMoveID){
         playerList = playerList->next;
     }
 }
+
+int checkPlayerAlive(Node *playerList){
+    while(playerList != NULL){
+        if(playerList->player.alive == 1){
+            return 1;
+        }
+        playerList = playerList->next;
+    }
+    return 0;
+}
+
+void killPlayer(Node *playerList, int playerToKillID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToKillID){
+            playerList->player.alive = 0;
+        }
+        playerList = playerList->next;
+    }
+}
