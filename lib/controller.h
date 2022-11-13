@@ -6,20 +6,15 @@
 #ifndef PROJET_CONTROLLER_H
 #define PROJET_CONTROLLER_H
 
-// fct globale appelée apres chaque input d un joueur, qui renvoie la map avec des modifs (joueur qui bouge, bombe posée ...)
-Map modifyMapPlayer(Map map, Game myGame, char keyPressed, Player myPlayer){
-    for (int i = 0; i < myGame.playerNumber ; ++i) {
-        map.map[myPlayer.place_x][myPlayer.place_y] = myPlayer.playerID;
-    }
-    return map;
-}
+Map modifyMapPlayer(Map map, Player myPlayer);
 
-// fonction destruction d'un mur
-Map modifyMapWall(Map map, Game myGame, char keyPressed, Player myPlayer);/*{
-    if (map.map[bomb.touch_x][bomb.touch_x] == 'm' ) {
-        map.map[bomb.touch_x][bomb.touch_x] == ' ';
-    }
-}*/
+Map modifyMapWall(Map map, Game myGame, char keyPressed, Player myPlayer);
+
+Map modifyPlayerDie(Map myMap, Game myGame, Player myPlayer);
+
+Player move_player(Map map, Player *player, char move);
+
+Player items_take(Map map, Player *player) ;
 
 // petite fct qui renvoie l ID d un item si un item spawn
 int spawnItem();
@@ -28,11 +23,12 @@ int spawnItem();
 Player initPlayer();
 
 // Permet de poser une bomb
-int put_bomb(Map myMap, Player myPlayer);
+Player put_bomb(Player *myPlayer, Game myGame, Bomb aBomb);
 
 // Explosion des bombes
-int bomb_blast(Map myMap, Player myPlayer );
+void bomb_blast(Map map, Player myPlayer, Game myGame);
 
+int check_bomb(Player myPlayer, Game myGame);
 
 
 

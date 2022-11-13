@@ -13,6 +13,13 @@ typedef struct{
 }  Map;
 
 typedef struct{
+    int idBomb;
+    int turnPut;
+    int place_x;
+    int place_y;
+}Bomb;
+
+typedef struct{
     int playerID;
     int place_x;
     int place_y;
@@ -27,6 +34,7 @@ typedef struct{
     int red_fire;
     int blue_fire;
     int bomb_range;
+    Bomb *list_bomb;
     // Items *list_items;
 } Player;
 
@@ -38,5 +46,18 @@ typedef struct{
     Player **playerList;
 }  Game;
 
+/* typedef struct {
+        int live;
+        int invincible;
+        int heart;
+        int pass_bomb;
+        int bomb_kick;
+        int yellow_fire;
+        int red_fire;
+        int blue_fire;
+        int bomb_up;
+        int bomb_down;
+    } Items;
+*/
 
 #endif //PROJET_STRUCTS_H

@@ -9,7 +9,7 @@
 #include "model.h"
 
 // Take a Map struct and print it to stdout
-void printMap(Map map, Game myGame, Player player){
+void printMap(Map map, Player myPlayer){
     //system("cls");
     //purple();
     SetConsoleOutputCP(65001);
@@ -21,10 +21,13 @@ void printMap(Map map, Game myGame, Player player){
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++){
 
-
-            if(map.map[i][j] == 'p'){
+            if (map.map[myPlayer.place_x][myPlayer.place_y] == map.map[i][j]) {
                 white();
-                printf("%d", nbPlayer);
+                //map.map[i][j] = myPlayer.playerID;
+                printf("%d", myPlayer.playerID);
+            }
+            if(map.map[i][j] == 'p'){
+                printf(" ");
                 nbPlayer++;
             }
             else if (map.map[i][j] == 'x'){
@@ -50,9 +53,9 @@ void printMap(Map map, Game myGame, Player player){
 // Display all the maps
 void printAllMaps(){
     int nbMap = nbMapFile();
-
+    Player player1;
     for(int i = 1; i <= nbMap; i++){
         printf("\n === Map number %d ===\n\n", i);
-        printMap(map(i));
+        printMap(map(i) , player1);
     }
 }
