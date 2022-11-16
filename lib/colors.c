@@ -1,6 +1,3 @@
-//
-// Created by Clément on 24/10/2022.
-//
 // check https://gist.github.com/RabaDabaDoba/145049536f815903c79944599c6f952a
 // if my own lib isn't enough
 //

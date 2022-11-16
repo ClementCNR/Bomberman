@@ -16,25 +16,28 @@ int arraySum(int *tab, int size){
     return sum;
 }
 
+
+
+
 int main(){
-    Player player1;
-    player1.playerID = 0;
-    player1.alive = 1;
-    player1.heart = 1;
-    player1.place_x = 1;
-    player1.place_y = 1;
+
+
+    printHomePage();
+    int mainMenuSelection;
+    mainMenuSelection = mainMenu();
+    if(mainMenuSelection == 4){
+        exit(0);
+    }
+
+
     Map myMap;
-    Game myGame;
-    myGame.statusGame = 1;
     int nbMapInDir = nbMapFile();
     if(nbMapInDir==0){
+        system("cls");
         printf("\nNo map files where found.\nPlease verify the integrity of the project.\n");
         return -1;
     }
     int lastPlayedMap = 0;
-
-    // Nombre de joueur dans la partie
-    scanf("%d", &myGame.playerNumber);
 
     int selection[nbMapInDir];
     for(int i=0; i<nbMapInDir; i++){
@@ -43,10 +46,9 @@ int main(){
 
     // MAPS SELECTION LOOP
     int mapNumber = -1;
-    while(mapNumber != 0 && arraySum(selection, nbMapInDir) == 0){
+    while(mapNumber != 0 || arraySum(selection, nbMapInDir) == 0){
 
         if (mapNumber >= 1 && mapNumber <= nbMapInDir){
-
             if (selection[mapNumber - 1] != 1){
                 selection[mapNumber - 1] = 1;
             }
@@ -85,47 +87,68 @@ int main(){
     lastPlayedMap = mapNumber;
     myMap = map(mapNumber);
 
+    Node *node = NULL;
+    node = initPlayerList(node, myMap);
 
-    printMap(myMap,player1);
+
+    printMap(myMap);
 
 
-    for(int i = 0; i < CMD_WIDE; i++) {
+  /*  for(int i = 0; i < CMD_WIDE; i++) {
         printf("=");
-    }
+    }*/
 
     printf("\n\n");
 
 
     scanf("%d", &mapNumber);
 
-    /*  ================================ Start Section ================================ */
 
-    if (myGame.playerNumber != 0 && mapNumber != NULL){
-        myGame.statusGame = 1;
-    }
+    //node->player.place_y--;
+    movePlayerDown(node, 1);
+    movePlayerUp(node, 1);
+    movePlayerDown(node, 1);
+
+    system("cls");
+    printMapGame(myMap, node);
+    ll_print(node);
+
+
+    scanf("%d", &mapNumber);
+
+
+    printf("joueur %d : %d", node->player.playerID, node->player.alive);
+
+    scanf("%d", &mapNumber);
+
+    ll_free(node);
+    exit(0);
 
     /*  ================================ Player Section ================================ */
     if (myGame.statusGame == 1){
         myGame.turn = 0;
-        char mover, ac;
-        //while (myGame.statusGame){
+        char mover;
+        char ac;
+        while (myGame.statusGame ){
+            for (int i = 0; i < 1; i++){
                 scanf("%c", &mover);
-                move_player(myMap, &player1, mover);
-                printMap(myMap,player1);
-                //items_take(myMap, player1);
-                /*scanf("%c", &ac);
+                move_player(myMap, /* Work ing progress */, mover);
+                items_take(myMap, /*player*/);
+                scanf("%c", &ac);
                 switch (ac){
-                    case 'b': put_bomb(myMap ,  Player , );
-                    case 'r': /* Ne rien faire ;
-                }*/
+                    case ' ': put_bomb(myMap , /* Player */);
+                    case 'r': /* Ne rien faire*/ ;
+                }
                 // Si mort décrement map.nplayer
                 myGame.turn++;
-        //}
+            }
+        }
         system("cls");
-        return 0;
-
+        printMap(myMap);
+        scanf("%c", &mover);
     }
 
+    return 0;
 
     // https://stackoverflow.com/questions/41383062/c-how-to-break-scanf-with-no-enter-and-no-string
 }

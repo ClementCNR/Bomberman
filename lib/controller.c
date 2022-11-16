@@ -3,8 +3,63 @@
 //
 #include <stdio.h>
 #include "colors.h"
+#include <stdio.h>
+#include <time.h> // used for rand
+#include <stdlib.h>
 
 #include "controller.h"
+
+// Add Item for player
+
+void movePlayerUp(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_x--;
+            break;
+        }
+        playerList = playerList->next;
+    }
+}
+
+void movePlayerDown(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_x++;
+            break;
+        }
+        playerList = playerList->next;
+    }
+}
+
+void movePlayerLeft(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_y--;
+            break;
+        }
+        playerList = playerList->next;
+    }
+}
+
+void movePlayerRight(Node *playerList, int playerToMoveID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToMoveID){
+            playerList->player.place_y++;
+            break;
+        }
+        playerList = playerList->next;
+    }
+}
+
+int checkPlayerAlive(Node *playerList){
+    while(playerList != NULL){
+        if(playerList->player.alive == 1){
+            return 1;
+        }
+        playerList = playerList->next;
+    }
+    return 0;
+}
 
 // Finir bomb blast, items prit invincibilité, mouvement en focntion des items possédé
 // revoir les items heart
@@ -336,3 +391,24 @@ void bomb_blast(Map map, Player myPlayer, Game myGame){
 
 }
 
+void killPlayer(Node *playerList, int playerToKillID){
+    while(playerList != NULL){
+        if(playerList->player.playerID == playerToKillID){
+            playerList->player.alive = 0;
+        }
+        playerList = playerList->next;
+    }
+}
+
+// return 10 for non item spawn, else between 0 and 9 (see define in struct.h)
+int randItemSpawn(){
+    srand(time(NULL));
+    if(rand() % 3 < 2){
+        return 10;
+    }
+    else{
+        srand(time(NULL));
+        return rand() % 10;
+    }
+
+}

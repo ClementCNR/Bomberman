@@ -55,11 +55,16 @@ Map map(int mapNumber){
     }
 
     char letter = ' ';
+    int nbPlayer = 0;
+    Player player;
 
     for(int i = 0; i < map.rows; i++){
         for(int j = 0; j < map.columns; j++) {
             letter = fgetc(file);
             if(letter != '\n') {
+                if(letter == 'p'){
+                    nbPlayer++;
+                }
                 tab[i][j] = letter;
             }
         }
@@ -67,6 +72,7 @@ Map map(int mapNumber){
     }
 
     map.map = tab;
+    map.maxPlayer = nbPlayer;
 
     fclose(file);
 
@@ -106,3 +112,59 @@ int nbMapFile(){
 
     return mapNumber - 1;
 }
+
+Node *ll_push_front(Node *first, Player newPlayer){
+    Node *new = malloc(sizeof(Node));
+    new->player = newPlayer;
+    new->next = first;
+    return new;
+}
+
+//  ll add last
+void ll_free(Node *first){
+    if(first != NULL){
+        ll_free(first->next);
+        free(first);
+    }
+}
+
+void ll_print(Node *first){
+    while(first != NULL){
+        printf("player ID = %d / pos = %d - %d\n", first->player.playerID, first->player.place_x, first->player.place_y);
+        first = first->next;
+
+    }
+}
+
+Node *initPlayerList(Node *first, Map map){
+
+    int playerID = 0;
+    Player player;
+    player.alive = 1;
+    player.maxBomb = map.defaultBomb;
+    player.live = 1;
+    player.invincible = 0;
+    player.heart = 1;
+    player.pass_bomb = 0;
+    player.bomb_kick = 0;
+    player.yellow_fire = 0;
+    player.red_fire = 0;
+    player.blue_fire = 0;
+    player.bomb_range = 0;
+
+    for(int i = 0; i < map.rows; i++){
+        for(int j = 0; j < map.columns; j++){
+            if(map.map[i][j] == 'p'){
+                playerID++;
+                player.playerID = playerID;
+                player.place_x = i;
+                player.place_y = j;
+                first = ll_push_front(first, player);
+            }
+        }
+    }
+
+    return first;
+
+}
+

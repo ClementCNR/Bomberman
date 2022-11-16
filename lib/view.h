@@ -1,6 +1,3 @@
-//
-// Created by Clément on 28/10/2022.
-//
 #include "structs.h"
 
 #ifndef PROJET_VIEW_H
@@ -9,8 +6,16 @@
 
 void printMap(Map map, Player myPlayer);
 
+void printMapGame(Map map, Node *playerList);
+
 void printAllMaps();
 
+void printHomePage();
 
+int mainMenu();
+
+void bomberman();
+
+void playerInfo(Node *playerList);
 
 #endif //PROJET_VIEW_H

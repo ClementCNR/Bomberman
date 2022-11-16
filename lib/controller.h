@@ -1,16 +1,10 @@
-//
-// Created by Clément on 31/10/2022.
-//
 #include "structs.h"
+#include <stdlib.h>
 
 #ifndef PROJET_CONTROLLER_H
 #define PROJET_CONTROLLER_H
 
 Map modifyMapPlayer(Map map, Player myPlayer);
-
-Map modifyMapWall(Map map, Game myGame, char keyPressed, Player myPlayer);
-
-Map modifyPlayerDie(Map myMap, Game myGame, Player myPlayer);
 
 Player move_player(Map map, Player *player, char move, Game myGame);
 
@@ -22,21 +16,27 @@ int check_bombkick(Player *player);
 
 Player shot_bomb(Player *myPlayer, Game myGame, int posX, int posY, char direction);
 
+void movePlayerUp(Node *playerList, int playerToMoveID);
 
-// petite fct qui renvoie l ID d un item si un item spawn
-int spawnItem();
-
-// call 1 fois apres la creation de la map
-Player initPlayer();
+void movePlayerDown(Node *playerList, int playerToMoveID);
 
 // Permet de poser une bomb
 Player put_bomb(Player *myPlayer, Game myGame, Bomb aBomb);
 
+void movePlayerLeft(Node *playerList, int playerToMoveID);
+
 // Explosion des bombes
 void bomb_blast(Map map, Player myPlayer, Game myGame);
 
+void movePlayerRight(Node *playerList, int playerToMoveID);
+
 int check_bomb(Player myPlayer, Game myGame);
 
+int checkPlayerAlive(Node *playerList);
 
+void killPlayer(Node *playerList, int playerToKillID);
+
+// return 10 for non item spawn, else between 0 and 9 (see define in struct.h)
+int randItemSpawn();
 
 #endif //PROJET_CONTROLLER_H
