@@ -27,6 +27,7 @@ typedef struct{
     int maxBomb;
     int live;
     int invincible;
+    int invincible_take;
     int heart;
     int pass_bomb;
     int bomb_kick;
@@ -44,7 +45,11 @@ typedef struct{
     int turn;
     Map mapPlayed;
     Player **playerList;
-}  Game;
+} Game;
+
+typedef struct{
+
+} List;
 
 /* typedef struct {
         int live;

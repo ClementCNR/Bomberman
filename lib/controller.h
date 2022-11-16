@@ -12,9 +12,16 @@ Map modifyMapWall(Map map, Game myGame, char keyPressed, Player myPlayer);
 
 Map modifyPlayerDie(Map myMap, Game myGame, Player myPlayer);
 
-Player move_player(Map map, Player *player, char move);
+Player move_player(Map map, Player *player, char move, Game myGame);
 
-Player items_take(Map map, Player *player) ;
+Player items_take(Map map, Player *player, Game myGame);
+
+int check_bombpass(Player *player);
+
+int check_bombkick(Player *player);
+
+Player shot_bomb(Player *myPlayer, Game myGame, int posX, int posY, char direction);
+
 
 // petite fct qui renvoie l ID d un item si un item spawn
 int spawnItem();
