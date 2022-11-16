@@ -1,9 +1,8 @@
-//
-// Created by Clément on 31/10/2022.
-//
-
 #include "controller.h"
 #include <stdio.h>
+#include <time.h> // used for rand
+#include <stdlib.h>
+
 
 // Player moving
 int move_player(Map map, Player player, char move){
@@ -122,4 +121,17 @@ void killPlayer(Node *playerList, int playerToKillID){
         }
         playerList = playerList->next;
     }
+}
+
+// return 10 for non item spawn, else between 0 and 9 (see define in struct.h)
+int randItemSpawn(){
+    srand(time(NULL));
+    if(rand() % 3 < 2){
+        return 10;
+    }
+    else{
+        srand(time(NULL));
+        return rand() % 10;
+    }
+
 }

@@ -1,6 +1,3 @@
-//
-// Created by Clément on 28/10/2022.
-//
 #include "structs.h"
 #ifndef PROJET_MODEL_H
 #define PROJET_MODEL_H
@@ -18,5 +15,11 @@ void ll_free(Node *first);
 void ll_print(Node *first);
 
 Node *initPlayerList(Node *first, Map map);
+
+//
+//called during explosion
+//will change the 'm' by ' '
+//will call spawnItem to randomise the ' ' by an item
+void destroyWall(Map *map, int x, int y);
 
 #endif //PROJET_MODEL_H

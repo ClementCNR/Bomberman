@@ -1,23 +1,19 @@
-//
-// Created by Clément on 28/10/2022.
-//
-
 #ifndef PROJET_STRUCTS_H
 #define PROJET_STRUCTS_H
 
-#define BombUp 1
-#define BombDown 2
+#define BombUp 0
+#define BombDown 1
 
-#define YellowFlame 3
-#define BlueFlame 4
-#define RedFlame 5
+#define YellowFlame 2
+#define BlueFlame 3
+#define RedFlame 4
 
-#define BombPass 6
-#define Bombkick 7
+#define BombPass 5
+#define Bombkick 6
 
-#define Invicibility 8
-#define Heart 9
-#define Life 10
+#define Invicibility 7
+#define Heart 8
+#define Life 9
 
 typedef struct{
     int defaultBomb;

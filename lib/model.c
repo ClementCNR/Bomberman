@@ -120,6 +120,7 @@ Node *ll_push_front(Node *first, Player newPlayer){
     return new;
 }
 
+//  ll add last
 void ll_free(Node *first){
     if(first != NULL){
         ll_free(first->next);

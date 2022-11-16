@@ -1,6 +1,3 @@
-//
-// Created by Clément on 28/10/2022.
-//
 #include "structs.h"
 
 #ifndef PROJET_VIEW_H
@@ -18,5 +15,7 @@ void printHomePage();
 int mainMenu();
 
 void bomberman();
+
+void playerInfo(Node *playerList);
 
 #endif //PROJET_VIEW_H

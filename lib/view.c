@@ -1,6 +1,3 @@
-//
-// Created by Clément on 28/10/2022.
-//
 #include <Windows.h>
 #include <stdio.h>
 
@@ -107,7 +104,7 @@ void bomberman(){
     reset();
 }
 
-
+// print map but p = ' ' and if find a player with x y, print player id
 void printMapGame(Map map, Node *playerList){
     //system("cls");
     //purple();
@@ -157,3 +154,14 @@ void printMapGame(Map map, Node *playerList){
 
     }
 }
+
+// HUD with player info
+void playerInfo(Node *playerList){
+
+    int player = 0;
+    while(playerList != NULL){
+        player++;
+        playerList = playerList->next;
+    }
+}
+

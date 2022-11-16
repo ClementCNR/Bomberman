@@ -1,7 +1,5 @@
-//
-// Created by Clément on 31/10/2022.
-//
 #include "structs.h"
+#include <stdlib.h>
 
 #ifndef PROJET_CONTROLLER_H
 #define PROJET_CONTROLLER_H
@@ -28,5 +26,8 @@ void movePlayerRight(Node *playerList, int playerToMoveID);
 int checkPlayerAlive(Node *playerList);
 
 void killPlayer(Node *playerList, int playerToKillID);
+
+// return 10 for non item spawn, else between 0 and 9 (see define in struct.h)
+int randItemSpawn();
 
 #endif //PROJET_CONTROLLER_H
