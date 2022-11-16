@@ -4,7 +4,7 @@
 #define PROJET_VIEW_H
 
 
-void printMap(Map map, Player myPlayer);
+void printMap(Map map);
 
 void printMapGame(Map map, Node *playerList);
 

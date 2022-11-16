@@ -8,6 +8,8 @@
 #include <stdlib.h>
 
 #include "controller.h"
+#include "model.h"
+
 
 // Add Item for player
 
@@ -51,10 +53,14 @@ void movePlayerRight(Node *playerList, int playerToMoveID){
     }
 }
 
-int checkPlayerAlive(Node *playerList){
+int checkPlayerAlive(Node *playerList, int playerToCheckID){
     while(playerList != NULL){
-        if(playerList->player.alive == 1){
-            return 1;
+        if(playerList->player.playerID == playerToCheckID){
+            if (playerList->player.alive == 1){
+                return 1;
+            }else{
+                return 0;
+            }
         }
         playerList = playerList->next;
     }
@@ -74,7 +80,7 @@ Map modifyMapPlayer(Map map, Player myPlayer){
 }
 
 // Add Item for player
-Player items_take(Map map, Player *player, Game myGame) {
+Player items_take(Player *player, Game myGame) {
     // Important revoir la fonction uen fois la structure Items utiliser
     // ajouter &
     char pos = map.map[player->place_x][player->place_y];
@@ -109,96 +115,112 @@ Player items_take(Map map, Player *player, Game myGame) {
     }
 }
 
-
 // Player moving
 Player move_player(Map map, Player *player, char move, Game myGame){
     // IMPORTANT ajouter la vérification des items pour les bombs etc
     switch (move){
-        case 'z' : if (player->alive >= 1 ) { // Up mouvement
-                        if (map.map[player->place_x][player->place_y - 1] == 'x' ||
-                            map.map[player->place_x][player->place_y - 1] == 'm' ||
-                            map.map[player->place_x][player->place_y - 1] == 'p') {
-                            break;
-                        }else {
-                            int posX = map.map[player->place_x];
-                            int posY = map.map[player->place_y-1];
-                            if (map.map[player->place_x][player->place_y- 1] == 'b') {
-                                if(check_bombkick(player)){
-                                    shot_bomb(player, myGame, posX, posY, move);
-                                    break;
-                                }else if(check_bombpass(player)){
-                                    player->place_x--;
-                                    break;
-                                }
-
-                            }
-                            player->place_y++;
-                        }
-                    }break;
-        case 'q' : if (player->alive >= 1) { // Left move
-                        if (map.map[player->place_x - 1][player->place_y] == 'x' ||
-                            map.map[player->place_x - 1][player->place_y] == 'm' ||
-                            map.map[player->place_x - 1][player->place_y] == 'p') {
-                            break;
-                        }else {
-                            int posX = map.map[player->place_x-1];
-                            int posY = map.map[player->place_y];
-                            if (map.map[player->place_x- 1][player->place_y] == 'b') {
-                                if(check_bombkick(player)){
-                                    shot_bomb(player, myGame, posX, posY, move);
-                                    break;
-                                }else if(check_bombpass(player)){
-                                    player->place_x--;
-                                    break;
-                                }
-
-                            }
-                            player->place_x--;
-                        }
-                    }break;
-        case 's' : if(player->alive >= 1 ) { // Down move
-                        if( map.map[player->place_x][player->place_y+1] == 'x' ||
-                            map.map[player->place_x][player->place_y+1] == 'm' ||
-                            map.map[player->place_x][player->place_y+1] == 'p') {
-                            break;
-                        }else {
-                            int posX = map.map[player->place_x];
-                            int posY = map.map[player->place_y+1];
-                            if (map.map[player->place_x][player->place_y+1] == 'b') {
-                                if(check_bombkick(player)){
-                                    shot_bomb(player, myGame, posX, posY, move);
-                                    break;
-                                }else if(check_bombpass(player)){
-                                    player->place_y++;
-                                    break;
-                                }
-                                break;
-                            }
-                            player->place_y++;
-                        }
-                    }break;
-        case 'd' : if(player->alive >= 1 ) { // Right move
-                        if (map.map[player->place_x + 1][player->place_y] == 'x' ||
-                            map.map[player->place_x + 1][player->place_y] == 'm' ||
-                            map.map[player->place_x + 1][player->place_y] == 'p') {
-                            break;
-                        }else {
-                            int posX = map.map[player->place_x + 1];
-                            int posY = map.map[player->place_y];
-                            if ( map.map[player->place_x + 1][player->place_y] == 'b') {
-                                if(check_bombkick(player)){
-                                    shot_bomb(player, myGame, posX, posY, move);
-                                    break;
-                                }else if(check_bombpass(player)){
-                                    player->place_x++;
-                                    break;
-                                }
-                                break;
-                            }
-                            player->place_x++;
-                        }
-                    }break;
-        default : printf("default");
+        case 'z' :
+            if (map.map[player->place_x][player->place_y - 1] == 'x' ||
+                map.map[player->place_x][player->place_y - 1] == 'm' ||
+                map.map[player->place_x][player->place_y - 1] == 'p') {
+                break;
+            }else if (map.map[player->place_x][player->place_y- 1] == 'b'){
+                int posX = map.map[player->place_x];
+                int posY = map.map[player->place_y-1];
+                if(check_bombkick(player)){
+                    shot_bomb(player, myGame, posX, posY, move);
+                    player->place_y--;
+                    break;
+                }else if(check_bombpass(player)){
+                    player->place_y--;
+                    break;
+                }
+            }else if(map.map[player->place_x][player->place_y- 1] == 'item'){
+                items_take(player, myGame);
+                player->place_y--;
+                break;
+            }else if(map.map[player->place_x][player->place_y- 1] == ' '){
+                player->place_y--;
+                break;
+            }
+            break;
+        case 'q' :
+            if (map.map[player->place_x - 1][player->place_y] == 'x' ||
+                map.map[player->place_x - 1][player->place_y] == 'm' ||
+                map.map[player->place_x - 1][player->place_y] == 'p') {
+                break;
+            }else if(map.map[player->place_x- 1][player->place_y] == 'b') {
+                int posX = map.map[player->place_x-1];
+                int posY = map.map[player->place_y];
+                if(check_bombkick(player)){
+                    shot_bomb(player, myGame, posX, posY, move);
+                    player->place_x--;
+                    break;
+                }else if(check_bombpass(player)){
+                    player->place_x--;
+                    break;
+                }
+            }else if(map.map[player->place_x - 1][player->place_y] == 'item'){
+                items_take(player, myGame);
+                player->place_x--;
+                break;
+            }else if(map.map[player->place_x - 1][player->place_y] == ' '){
+                player->place_x--;
+                break;
+            }
+            break;
+        case 's' :
+            if( map.map[player->place_x][player->place_y+1] == 'x' ||
+                map.map[player->place_x][player->place_y+1] == 'm' ||
+                map.map[player->place_x][player->place_y+1] == 'p') {
+                break;
+            }else if (map.map[player->place_x][player->place_y+1] == 'b'){
+                int posX = map.map[player->place_x];
+                int posY = map.map[player->place_y+1];
+                if(check_bombkick(player)){
+                    shot_bomb(player, myGame, posX, posY, move);
+                    break;
+                }else if(check_bombpass(player)){
+                    player->place_y++;
+                    break;
+                }
+                break;
+            }else if(map.map[player->place_x][player->place_y+1] == 'item'){
+                items_take(player, myGame);
+                player->place_y++;
+                break;
+            }else if(map.map[player->place_x][player->place_y+1] == ' '){
+                player->place_y++;
+                break;
+            }
+            break;
+        case 'd' :
+            if (map.map[player->place_x + 1][player->place_y] == 'x' ||
+                map.map[player->place_x + 1][player->place_y] == 'm' ||
+                map.map[player->place_x + 1][player->place_y] == 'p') {
+                break;
+            }else if (map.map[player->place_x + 1][player->place_y] == 'b') {
+                int posX = map.map[player->place_x + 1];
+                int posY = map.map[player->place_y];
+                if (check_bombkick(player)) {
+                    shot_bomb(player, myGame, posX, posY, move);
+                    player->place_x++;
+                    break;
+                } else if(check_bombpass(player)) {
+                    player->place_x++;
+                    break;
+                }
+                break;
+            }else if (map.map[player->place_x + 1][player->place_y] == 'item'){
+                items_take(player, myGame);
+                player->place_x++;
+                break;
+            }else if(map.map[player->place_x + 1][player->place_y] == ' '){
+                player->place_x++;
+                break;
+            }
+            break;
+        default : printf("Erreur de déplacement");
     }
 }
 
@@ -291,26 +313,37 @@ int check_bomb(Player myPlayer, Game myGame){
     return rep;
 }
 
-Player put_bomb(Player *myPlayer, Game myGame, Bomb aBomb){
+void put_bomb(Node *first, Game myGame, int playerPutBomb){
     // gerer le max bomb
     int add = 0;
     int i = 0;
-    while ( add == 0 && i < sizeof(myPlayer->list_bomb) ) {
-        if (NULL == myPlayer->list_bomb[i].idBomb){
-            add = 1;
-            // Création d'une bomb
-            aBomb.idBomb = i;
-            aBomb.turnPut = myGame.turn;
-            aBomb.place_y = myPlayer->place_y;
-            aBomb.place_x = myPlayer->place_x;
-            // Ajout de la bombe crée dans la liste de bombe du joueur
-            myPlayer->list_bomb[i] = aBomb;
+    int nbBomb = 0;
+    Node *loop = first;
+    while (loop != NULL ){
+        if (loop->player.playerID == playerPutBomb){
+            break;
         }
-        i++;
+        loop->next;
     }
+    BombList *activeBomb ;
+    activeBomb = &loop->player.list_bomb;
+    while(activeBomb != NULL){
+        activeBomb->next;
+        nbBomb++;
+    }
+    if(loop->player.maxBomb > nbBomb){
+        Bomb aBomb;
+        aBomb.idBomb = i;
+        aBomb.turnPut = myGame.turn;
+        aBomb.place_y = loop->player.place_y;
+        aBomb.place_x = loop->player.place_x;
+        ll_push_bomb(activeBomb, aBomb);
+    }
+    ll_free(loop);
+    //ll_free(loop);
 }
 
-void bomb_blast(Map map, Player myPlayer, Game myGame){
+void bomb_blast(Map map, Player *myPlayer, Game myGame){
     int result = check_bomb(myPlayer, myGame);
     if ( result == NULL ) {
         return ;
@@ -320,8 +353,8 @@ void bomb_blast(Map map, Player myPlayer, Game myGame){
         propagation1 = 1;
         propagation2 = 1;
         propagation3 = 1;
-        for (int i = 1; i < myPlayer.bomb_range; i++){
-            res = map.map[myPlayer.list_bomb[result].place_x + i][myPlayer.list_bomb[result].place_y];
+        for (int i = 1; i < myPlayer->bomb_range; i++){
+            res = map.map[myPlayer->list_bomb[result].place_x + i][myPlayer->list_bomb[result].place_y];
             if (propagation == 1) {
                 switch (res){
                     case 'x': propagation = 0;

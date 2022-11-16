@@ -8,7 +8,7 @@ Map modifyMapPlayer(Map map, Player myPlayer);
 
 Player move_player(Map map, Player *player, char move, Game myGame);
 
-Player items_take(Map map, Player *player, Game myGame);
+Player items_take(Player *player, Game myGame);
 
 int check_bombpass(Player *player);
 
@@ -21,18 +21,18 @@ void movePlayerUp(Node *playerList, int playerToMoveID);
 void movePlayerDown(Node *playerList, int playerToMoveID);
 
 // Permet de poser une bomb
-Player put_bomb(Player *myPlayer, Game myGame, Bomb aBomb);
+void put_bomb(Node *first, Game myGame, int playerPutBomb);
 
 void movePlayerLeft(Node *playerList, int playerToMoveID);
 
 // Explosion des bombes
-void bomb_blast(Map map, Player myPlayer, Game myGame);
+void bomb_blast(Map map, Player *myPlayer, Game myGame);
 
 void movePlayerRight(Node *playerList, int playerToMoveID);
 
 int check_bomb(Player myPlayer, Game myGame);
 
-int checkPlayerAlive(Node *playerList);
+int checkPlayerAlive(Node *playerList, int playerToCheckID);
 
 void killPlayer(Node *playerList, int playerToKillID);
 

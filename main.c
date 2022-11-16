@@ -31,6 +31,7 @@ int main(){
 
 
     Map myMap;
+    Game myGame;
     int nbMapInDir = nbMapFile();
     if(nbMapInDir==0){
         system("cls");
@@ -121,33 +122,45 @@ int main(){
 
     scanf("%d", &mapNumber);
 
-    ll_free(node);
-    exit(0);
 
-    /*  ================================ Player Section ================================ */
+
+
+    //  ================================ Player Section ================================
+
     if (myGame.statusGame == 1){
         myGame.turn = 0;
-        char mover;
-        char ac;
-        while (myGame.statusGame ){
-            for (int i = 0; i < 1; i++){
-                scanf("%c", &mover);
-                move_player(myMap, /* Work ing progress */, mover);
-                items_take(myMap, /*player*/);
-                scanf("%c", &ac);
-                switch (ac){
-                    case ' ': put_bomb(myMap , /* Player */);
-                    case 'r': /* Ne rien faire*/ ;
+        char action;
+        Node *loop;
+        loop = node;
+        while (myGame.statusGame){
+            while(checkPlayerAlive(loop, loop->player.playerID) == 0) {
+                loop = loop->next;
+                if(loop == NULL){
+                    loop = node;
                 }
-                // Si mort décrement map.nplayer
-                myGame.turn++;
             }
+            printf("Entrée soit r pour ne rien faire ou un espace pour poser une bombe");
+            scanf("%c", &action);
+            switch (action){
+                case ' ': put_bomb( node, myGame, loop->player.playerID);
+                    break;
+                case 'r':  break;
+                case 'default':
+                    printf("Entrée soit r pour ne rien faire ou ' ' pour poser une bombe");
+                    break;
+            }
+            printf("Entrée une direction 'zqsd'");
+            scanf("%c", &action);
+            move_player( myMap, &loop->player, action, myGame);
+
+            bomb_blast( myMap,  &loop->player,  myGame);
+            myGame.turn++;
         }
         system("cls");
         printMap(myMap);
-        scanf("%c", &mover);
     }
 
+    ll_free(node);
     return 0;
 
     // https://stackoverflow.com/questions/41383062/c-how-to-break-scanf-with-no-enter-and-no-string

@@ -120,10 +120,24 @@ Node *ll_push_front(Node *first, Player newPlayer){
     return new;
 }
 
+BombList *ll_push_bomb(BombList *first, Bomb aBomb){
+    BombList *new = malloc(sizeof(BombList));
+    new->aBomb = aBomb;
+    new->next = first;
+    return new;
+}
+
 //  ll add last
 void ll_free(Node *first){
     if(first != NULL){
         ll_free(first->next);
+        free(first);
+    }
+}
+
+void ll_free_bomb(BombList *first){
+    if(first != NULL){
+        ll_free_bomb(first->next);
         free(first);
     }
 }

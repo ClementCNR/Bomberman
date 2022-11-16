@@ -37,12 +37,19 @@ typedef struct{
     } Items;
 */
 
+
 typedef struct{
     int idBomb;
     int turnPut;
     int place_x;
     int place_y;
 }Bomb;
+
+typedef struct BombList BombList;
+struct BombList {
+    Bomb aBomb;
+    BombList *next;
+};
 
 typedef struct{
     int playerID;
@@ -60,7 +67,7 @@ typedef struct{
     int red_fire;
     int blue_fire;
     int bomb_range;
-    Bomb *list_bomb;
+    BombList list_bomb;
     // Items *list_items;
 } Player;
 
@@ -69,7 +76,6 @@ struct Node {
     Player player;
     Node *next;
 };
-
 
 typedef struct{
     int statusGame;
