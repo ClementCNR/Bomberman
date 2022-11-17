@@ -168,3 +168,15 @@ Node *initPlayerList(Node *first, Map map){
 
 }
 
+void placeBomb(Map *map, int x, int y){
+
+    for(int i = 0; i < map->rows; i++){
+        for(int j = 0; j < map->columns; j++) {
+            if(i == x && j == y){
+                map->map[i][j] = 'b';
+            }
+        }
+    }
+}
+
+

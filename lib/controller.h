@@ -23,7 +23,7 @@ void movePlayerLeft(Node *playerList, int playerToMoveID);
 
 void movePlayerRight(Node *playerList, int playerToMoveID);
 
-int checkPlayerAlive(Node *playerList);
+int checkPlayerAlive(Node *playerList, int playerToCheckID);
 
 void killPlayer(Node *playerList, int playerToKillID);
 

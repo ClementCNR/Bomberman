@@ -6,7 +6,7 @@
 #include "model.h"
 
 // Take a Map struct and print it to stdout
-void printMap(Map map, Game myGame, Player player){
+void printMap(Map map){
     //system("cls");
     //purple();
     SetConsoleOutputCP(65001);
@@ -142,6 +142,10 @@ void printMapGame(Map map, Node *playerList){
             else if (map.map[i][j] == 'm'){
                 cyan();
                 printf("%s", breakable);
+            }
+            else if (map.map[i][j] == 'b'){
+                yellow();
+                printf("o");
             }
             else{
                 printf("%c", map.map[i][j]);
