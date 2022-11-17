@@ -33,7 +33,7 @@ void movePlayerRight(Node *playerList, int playerToMoveID);
 
 int checkPlayerAlive(Node *playerList, int playerToCheckID);
 
-void check_bomb(Map map, Node *first,Game myGame);
+void check_bomb(Map map, Node *first,Game myGame, Node *playerList);
 
 void killPlayer(Node *playerList, int playerToKillID);
 

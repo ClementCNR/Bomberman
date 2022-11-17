@@ -303,13 +303,13 @@ int check_bombpass(Player *player){
     return 0;
 }
 
-void check_bomb(Map map, Node *first,Game myGame){
+void check_bomb(Map map, Node *first,Game myGame, Node *playerList){
     Node *loop = first;
     BombList *activeBomb ;
     while (loop != NULL){
         activeBomb = &loop->player.list_bomb;
         if (loop->player.list_bomb.aBomb.turnPut + 2 == myGame.turn){
-            bomb_blast(map, &loop->player, myGame);
+            bomb_blast(map, &loop->player, myGame, playerList);
         }
         loop->next;
     }

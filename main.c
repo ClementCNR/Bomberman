@@ -152,7 +152,7 @@ int main(){
             }
             printf("Entrée une direction 'zqsd'");
             scanf("%c", &action);
-            move_player( myMap, &loop->player, action, myGame);
+            move_player( myMap, &loop->player, action, myGame, node);
 
             check_bomb(myMap, node, myGame);
             myGame.turn++;
