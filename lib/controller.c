@@ -80,7 +80,7 @@ Map modifyMapPlayer(Map map, Player myPlayer){
 }
 
 // Add Item for player
-Player items_take(Player *player, Game myGame) {
+Player items_take(Player *player, Game myGame, Map map) {
     // Important revoir la fonction uen fois la structure Items utiliser
     // ajouter &
     char pos = map.map[player->place_x][player->place_y];
@@ -116,94 +116,101 @@ Player items_take(Player *player, Game myGame) {
 }
 
 // Player moving
-Player move_player(Map map, Player *player, char move, Game myGame){
+Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
     // IMPORTANT ajouter la vérification des items pour les bombs etc
+    int rep;
     switch (move){
         case 'z' :
+            rep = returnId(node, player->place_x, player->place_y - 1);
             if (map.map[player->place_x][player->place_y - 1] == 'x' ||
                 map.map[player->place_x][player->place_y - 1] == 'm' ||
-                map.map[player->place_x][player->place_y - 1] == 'p') {
+                rep == - 1) {
                 break;
             }else if (map.map[player->place_x][player->place_y- 1] == 'b'){
-                int posX = map.map[player->place_x];
-                int posY = map.map[player->place_y-1];
+                int posX = player->place_x;
+                int posY = player->place_y-1;
                 if(check_bombkick(player)){
-                    shot_bomb(player, myGame, posX, posY, move);
+                    //shot_bomb(player, myGame, posX, posY, move);
                     player->place_y--;
                     break;
                 }else if(check_bombpass(player)){
                     player->place_y--;
                     break;
                 }
-            }else if(map.map[player->place_x][player->place_y- 1] == 'item'){
-                items_take(player, myGame);
+            }/*else if(map.map[player->place_x][player->place_y- 1] == 'item'){
+                items_take(player, myGame, map);
                 player->place_y--;
                 break;
-            }else if(map.map[player->place_x][player->place_y- 1] == ' '){
+            }*/else if(map.map[player->place_x][player->place_y- 1] == ' '){
                 player->place_y--;
                 break;
             }
             break;
         case 'q' :
+            rep = returnId(node, player->place_x - 1, player->place_y);
+
             if (map.map[player->place_x - 1][player->place_y] == 'x' ||
                 map.map[player->place_x - 1][player->place_y] == 'm' ||
-                map.map[player->place_x - 1][player->place_y] == 'p') {
+                rep == - 1) {
                 break;
             }else if(map.map[player->place_x- 1][player->place_y] == 'b') {
-                int posX = map.map[player->place_x-1];
-                int posY = map.map[player->place_y];
+                int posX = player->place_x-1;
+                int posY = player->place_y;
                 if(check_bombkick(player)){
-                    shot_bomb(player, myGame, posX, posY, move);
+                    //shot_bomb(player, myGame, posX, posY, move);
                     player->place_x--;
                     break;
                 }else if(check_bombpass(player)){
                     player->place_x--;
                     break;
                 }
-            }else if(map.map[player->place_x - 1][player->place_y] == 'item'){
-                items_take(player, myGame);
+            }/*else if(map.map[player->place_x - 1][player->place_y] == 'item'){
+                items_take(player, myGame, map);
                 player->place_x--;
                 break;
-            }else if(map.map[player->place_x - 1][player->place_y] == ' '){
+            }*/else if(map.map[player->place_x - 1][player->place_y] == ' '){
                 player->place_x--;
                 break;
             }
             break;
         case 's' :
+            rep = returnId(node, player->place_x, player->place_y+1);
             if( map.map[player->place_x][player->place_y+1] == 'x' ||
                 map.map[player->place_x][player->place_y+1] == 'm' ||
-                map.map[player->place_x][player->place_y+1] == 'p') {
+                rep == -1 ){
                 break;
             }else if (map.map[player->place_x][player->place_y+1] == 'b'){
-                int posX = map.map[player->place_x];
-                int posY = map.map[player->place_y+1];
+                int posX = player->place_x;
+                int posY = player->place_y+1;
                 if(check_bombkick(player)){
-                    shot_bomb(player, myGame, posX, posY, move);
+                    //shot_bomb(player, myGame, posX, posY, move);
                     break;
                 }else if(check_bombpass(player)){
                     player->place_y++;
                     break;
                 }
                 break;
-            }else if(map.map[player->place_x][player->place_y+1] == 'item'){
-                items_take(player, myGame);
+            }/*else if(map.map[player->place_x][player->place_y+1] == 'item'){
+                items_take(player, myGame, map);
                 player->place_y++;
                 break;
-            }else if(map.map[player->place_x][player->place_y+1] == ' '){
+            }*/else if(map.map[player->place_x][player->place_y+1] == ' '){
                 player->place_y++;
                 break;
             }
             break;
+
         case 'd' :
+            rep = returnId(node, player->place_x + 1, player->place_y);
             if (map.map[player->place_x + 1][player->place_y] == 'x' ||
                 map.map[player->place_x + 1][player->place_y] == 'm' ||
-                map.map[player->place_x + 1][player->place_y] == 'p') {
+                rep == -1) {
                 break;
             }else if (map.map[player->place_x + 1][player->place_y] == 'b') {
-                int posX = map.map[player->place_x + 1];
-                int posY = map.map[player->place_y];
+                int posX = player->place_x + 1;
+                int posY = player->place_y;
                 if (check_bombkick(player)) {
-                    shot_bomb(player, myGame, posX, posY, move);
+                    //shot_bomb(player, myGame, posX, posY, move);
                     player->place_x++;
                     break;
                 } else if(check_bombpass(player)) {
@@ -211,11 +218,11 @@ Player move_player(Map map, Player *player, char move, Game myGame){
                     break;
                 }
                 break;
-            }else if (map.map[player->place_x + 1][player->place_y] == 'item'){
-                items_take(player, myGame);
+            }/*else if (map.map[player->place_x + 1][player->place_y] == 'item'){
+                items_take(player, myGame, map);
                 player->place_x++;
                 break;
-            }else if(map.map[player->place_x + 1][player->place_y] == ' '){
+            }*/else if(map.map[player->place_x + 1][player->place_y] == ' '){
                 player->place_x++;
                 break;
             }
@@ -223,7 +230,7 @@ Player move_player(Map map, Player *player, char move, Game myGame){
         default : printf("Erreur de déplacement");
     }
 }
-
+/*
 Player shot_bomb(Player *myPlayer, Game myGame, int posX, int posY, char direction){
     int bol = 1;
     for (int i = 0; i < sizeof(myGame.playerList); i++) {
@@ -286,7 +293,7 @@ Player shot_bomb(Player *myPlayer, Game myGame, int posX, int posY, char directi
             }
         }
     }
-}
+}*/
 
 int check_bombkick(Player *player){
     if (player->bomb_kick == 1){
@@ -303,19 +310,20 @@ int check_bombpass(Player *player){
     return 0;
 }
 
-int check_bomb(Player myPlayer, Game myGame){
-    int rep = NULL;
-    for (int i = 0; i < sizeof(myPlayer.list_bomb) ; i++){
-        if(myPlayer.list_bomb[i].turnPut + 2 == myGame.turn){
-            rep = i;
+void check_bomb(Map map, Node *first,Game myGame){
+    Node *loop = first;
+    BombList *activeBomb ;
+    while (loop != NULL){
+        activeBomb = &loop->player.list_bomb;
+        if (loop->player.list_bomb.aBomb.turnPut + 2 == myGame.turn){
+            bomb_blast(map, &loop->player, myGame);
         }
+        loop->next;
     }
-    return rep;
+    ll_free(loop);
 }
 
 void put_bomb(Node *first, Game myGame, int playerPutBomb){
-    // gerer le max bomb
-    int add = 0;
     int i = 0;
     int nbBomb = 0;
     Node *loop = first;
@@ -330,6 +338,7 @@ void put_bomb(Node *first, Game myGame, int playerPutBomb){
     while(activeBomb != NULL){
         activeBomb->next;
         nbBomb++;
+        i++;
     }
     if(loop->player.maxBomb > nbBomb){
         Bomb aBomb;
@@ -343,27 +352,28 @@ void put_bomb(Node *first, Game myGame, int playerPutBomb){
     //ll_free(loop);
 }
 
-void bomb_blast(Map map, Player *myPlayer, Game myGame){
-    int result = check_bomb(myPlayer, myGame);
-    if ( result == NULL ) {
-        return ;
-    }else {
+void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
         int res, res2, res3, res4, propagation, propagation1, propagation2, propagation3 ;
         propagation = 1;
         propagation1 = 1;
         propagation2 = 1;
         propagation3 = 1;
-        for (int i = 1; i < myPlayer->bomb_range; i++){
-            res = map.map[myPlayer->list_bomb[result].place_x + i][myPlayer->list_bomb[result].place_y];
+        Node *loop = playerList;
+        for (int i = 0; i < myPlayer->bomb_range; i++){
+            res = map.map[myPlayer->list_bomb.aBomb.place_x + i][myPlayer->list_bomb.aBomb.place_y];
             if (propagation == 1) {
+                while(loop != NULL){
+                    if(loop->player.place_x <= myPlayer->list_bomb.aBomb.place_x + i &&
+                        loop->player.place_y ==  myPlayer->list_bomb.aBomb.place_y){
+                        loop->player.alive = 0;
+                    }
+                    loop = loop->next;
+                }
                 switch (res){
                     case 'x': propagation = 0;
                         break;
                     case 'm': propagation = 0 ;
                             /*destroyWall()*/ ;
-                        break;
-                    case 'p': /*killPlayer()*/
-                            propagation = 1;
                         break;
                     case 'b': propagation = 1;
                         break;
@@ -371,8 +381,16 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame){
                         break;
                 }
             }
-            res2 = map.map[myPlayer.list_bomb[result].place_x - i][myPlayer.list_bomb[result].place_y];
+            res2 = map.map[myPlayer->list_bomb.aBomb.place_x - i][myPlayer->list_bomb.aBomb.place_y];
             if (propagation1 == 1) {
+                loop = playerList;
+                while(loop != NULL){
+                    if(loop->player.place_x <= myPlayer->list_bomb.aBomb.place_x - i &&
+                       loop->player.place_y ==  myPlayer->list_bomb.aBomb.place_y){
+                        loop->player.alive = 0;
+                    }
+                    loop = loop->next;
+                }
                 switch (res2) {
                     case 'x':
                         propagation1 = 0;
@@ -387,8 +405,16 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame){
                         break;
                 }
             }
-            res3 = map.map[myPlayer.list_bomb[result].place_x][myPlayer.list_bomb[result].place_y + i];
+            res3 = map.map[myPlayer->list_bomb.aBomb.place_x][myPlayer->list_bomb.aBomb.place_y + i];
             if (propagation2 == 1) {
+                loop = playerList;
+                while(loop != NULL){
+                    if(loop->player.place_x == myPlayer->list_bomb.aBomb.place_x &&
+                       loop->player.place_y <=  myPlayer->list_bomb.aBomb.place_y + i){
+                        loop->player.alive = 0;
+                    }
+                    loop = loop->next;
+                }
                 switch (res3) {
                     case 'x':
                         propagation2 = 0;
@@ -396,15 +422,20 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame){
                     case 'm':
                         propagation2 = 0 /*destroyWall()*/ ;
                         break;
-                    case 'p': /*killPlayer();*/
-                        propagation2 = 1;
-                        break;
                     case 'i': /* détruit l'objet et continue la propagation*/ ;
                         break;
                 }
             }
-            res4 = map.map[myPlayer.list_bomb[result].place_x][myPlayer.list_bomb[result].place_y - i];
+            res4 = map.map[myPlayer->list_bomb.aBomb.place_x][myPlayer->list_bomb.aBomb.place_y - i];
             if (propagation3 == 1) {
+                loop = playerList;
+                while(loop != NULL){
+                    if(loop->player.place_x == myPlayer->list_bomb.aBomb.place_x &&
+                       loop->player.place_y <=  myPlayer->list_bomb.aBomb.place_y - i){
+                        loop->player.alive = 0;
+                    }
+                    loop = loop->next;
+                }
                 switch (res4) {
                     case 'x':
                         propagation3 = 0;
@@ -412,7 +443,7 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame){
                     case 'm':
                         propagation3 = 0 /*destroyWall()*/ ;
                         break;
-                    case 'p': /*killPlayer();*/
+                    case 'p': killPlayer(,);
                         propagation3 = 1;
                         break;
                     case 'i': /* détruit l'objet et continue la propagation*/ ;
@@ -420,8 +451,17 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame){
                 }
             }
         }
-    }
+}
 
+int returnId(Node *playerList, int x, int y){
+    while(playerList != NULL){
+        if(playerList->player.place_x == x &&
+        playerList->player.place_y ==  y){
+            return playerList->player.playerID;
+        }
+        playerList = playerList->next;
+    }
+    return -1;
 }
 
 void killPlayer(Node *playerList, int playerToKillID){

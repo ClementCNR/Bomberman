@@ -145,7 +145,7 @@ int main(){
                 case ' ': put_bomb( node, myGame, loop->player.playerID);
                     break;
                 case 'r':  break;
-                case 'default':
+                 default :
                     printf("Entrée soit r pour ne rien faire ou ' ' pour poser une bombe");
                     break;
             }
@@ -153,7 +153,7 @@ int main(){
             scanf("%c", &action);
             move_player( myMap, &loop->player, action, myGame);
 
-            bomb_blast( myMap,  &loop->player,  myGame);
+            check_bomb(myMap, node, myGame);
             myGame.turn++;
         }
         system("cls");

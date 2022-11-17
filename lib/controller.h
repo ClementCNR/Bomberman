@@ -6,9 +6,9 @@
 
 Map modifyMapPlayer(Map map, Player myPlayer);
 
-Player move_player(Map map, Player *player, char move, Game myGame);
+Player move_player(Map map, Player *player, char move, Game myGame, Node *node);
 
-Player items_take(Player *player, Game myGame);
+Player items_take(Player *player, Game myGame, Map map);
 
 int check_bombpass(Player *player);
 
@@ -25,12 +25,14 @@ void put_bomb(Node *first, Game myGame, int playerPutBomb);
 
 void movePlayerLeft(Node *playerList, int playerToMoveID);
 
+int returnId(Node *playerList, int x, int y);
+
 // Explosion des bombes
-void bomb_blast(Map map, Player *myPlayer, Game myGame);
+void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList);
 
 void movePlayerRight(Node *playerList, int playerToMoveID);
 
-int check_bomb(Player myPlayer, Game myGame);
+void check_bomb(Map map, Node *first,Game myGame);
 
 int checkPlayerAlive(Node *playerList, int playerToCheckID);
 

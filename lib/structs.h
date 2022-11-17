@@ -82,7 +82,6 @@ typedef struct{
     int playerNumber;
     int turn;
     Map mapPlayed;
-    Player **playerList;
 } Game;
 
 typedef struct{
