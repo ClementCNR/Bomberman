@@ -111,6 +111,7 @@ int main(){
     movePlayerDown(node, 1);
 
     system("cls");
+    placeBomb(&myMap, 3, 3);
     printMapGame(myMap, node);
     ll_print(node);
 

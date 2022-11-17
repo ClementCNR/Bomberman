@@ -4,7 +4,6 @@
 #ifndef PROJET_CONTROLLER_H
 #define PROJET_CONTROLLER_H
 
-Map modifyMapPlayer(Map map, Player myPlayer);
 
 Player move_player(Map map, Player *player, char move, Game myGame, Node *node);
 
@@ -32,9 +31,9 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList);
 
 void movePlayerRight(Node *playerList, int playerToMoveID);
 
-void check_bomb(Map map, Node *first,Game myGame);
-
 int checkPlayerAlive(Node *playerList, int playerToCheckID);
+
+void check_bomb(Map map, Node *first,Game myGame);
 
 void killPlayer(Node *playerList, int playerToKillID);
 

@@ -1,17 +1,10 @@
-//
-// Created by Clément on 31/10/2022.
-//
-#include <stdio.h>
-#include "colors.h"
+#include "controller.h"
 #include <stdio.h>
 #include <time.h> // used for rand
 #include <stdlib.h>
 
 #include "controller.h"
 #include "model.h"
-
-
-// Add Item for player
 
 void movePlayerUp(Node *playerList, int playerToMoveID){
     while(playerList != NULL){

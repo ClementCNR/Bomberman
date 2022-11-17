@@ -141,6 +141,10 @@ void printMapGame(Map map, Node *playerList){
                 cyan();
                 printf("%s", breakable);
             }
+            else if (map.map[i][j] == 'b'){
+                yellow();
+                printf("o");
+            }
             else{
                 printf("%c", map.map[i][j]);
             }
