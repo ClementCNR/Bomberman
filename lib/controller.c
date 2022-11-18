@@ -360,7 +360,7 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
             if (propagation == 1) {
                 while(loop != NULL){
                     if(loop->player.place_x <= myPlayer->list_bomb.aBomb.place_x + i &&
-                        loop->player.place_y ==  myPlayer->list_bomb.aBomb.place_y){
+                        loop->player.place_y ==  myPlayer->list_bomb.aBomb.place_y && myPlayer->invincible == 0){
                         loop->player.alive = 0;
                     }
                     loop = loop->next;
@@ -382,7 +382,7 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
                 loop = playerList;
                 while(loop != NULL){
                     if(loop->player.place_x <= myPlayer->list_bomb.aBomb.place_x - i &&
-                       loop->player.place_y ==  myPlayer->list_bomb.aBomb.place_y){
+                       loop->player.place_y ==  myPlayer->list_bomb.aBomb.place_y && myPlayer->invincible == 0){
                         loop->player.alive = 0;
                     }
                     loop = loop->next;
@@ -404,7 +404,7 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
                 loop = playerList;
                 while(loop != NULL){
                     if(loop->player.place_x == myPlayer->list_bomb.aBomb.place_x &&
-                       loop->player.place_y <=  myPlayer->list_bomb.aBomb.place_y + i){
+                       loop->player.place_y <=  myPlayer->list_bomb.aBomb.place_y + i && myPlayer->invincible == 0){
                         loop->player.alive = 0;
                     }
                     loop = loop->next;
@@ -425,7 +425,7 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
                 loop = playerList;
                 while(loop != NULL){
                     if(loop->player.place_x == myPlayer->list_bomb.aBomb.place_x &&
-                       loop->player.place_y <=  myPlayer->list_bomb.aBomb.place_y - i){
+                       loop->player.place_y <=  myPlayer->list_bomb.aBomb.place_y - i && myPlayer->invincible == 0){
                         loop->player.alive = 0;
                     }
                     loop = loop->next;
