@@ -107,8 +107,9 @@ void printMapGame(Map map, Node *playerList){
     //system("cls");
     //purple();
     SetConsoleOutputCP(65001);
-    char  *breakable = "▒";
+    char *breakable = "▒";
     char *unbreakable = "█";
+    char *bomb = "ó";
 
     Node *loop = playerList;
     int found = 0;
@@ -120,6 +121,10 @@ void printMapGame(Map map, Node *playerList){
             found = 0;
             while(loop != NULL){
                 if(loop->player.place_x == i && loop->player.place_y == j){
+                    if(loop->player.alive == 0){
+                        found = 1;
+                        break;
+                    }
                     white();
                     printf("%d", loop->player.playerID);
                     found = 1;
@@ -143,7 +148,7 @@ void printMapGame(Map map, Node *playerList){
             }
             else if (map.map[i][j] == 'b'){
                 yellow();
-                printf("o");
+                printf(bomb);
             }
             else{
                 printf("%c", map.map[i][j]);

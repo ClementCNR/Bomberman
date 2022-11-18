@@ -5,7 +5,7 @@
 #define PROJET_CONTROLLER_H
 
 
-Player move_player(Map map, Player *player, char move, Game myGame, Node *node);
+int move_player(Map map, Player *player, char move, Game myGame, Node *node);
 
 Player items_take(Player *player, Game myGame, Map map);
 
@@ -20,7 +20,7 @@ void movePlayerUp(Node *playerList, int playerToMoveID);
 void movePlayerDown(Node *playerList, int playerToMoveID);
 
 // Permet de poser une bomb
-void put_bomb(Node *first, Game myGame, int playerPutBomb);
+void put_bomb(Player *myPlayer, Game myGame, Map *map);
 
 void movePlayerLeft(Node *playerList, int playerToMoveID);
 

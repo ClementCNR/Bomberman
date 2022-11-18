@@ -112,15 +112,18 @@ Player items_take(Player *player, Game myGame, Map map) {
 }
 
 // Player moving
-Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
+int move_player(Map map, Player *player, char move, Game myGame, Node *node){
     // IMPORTANT ajouter la vérification des items pour les bombs etc
     int rep;
+    printf("\ncc\n");
+
     switch (move){
-        case 'z' :
+        case 'q' :
             rep = returnId(node, player->place_x, player->place_y - 1);
             if (map.map[player->place_x][player->place_y - 1] == 'x' ||
                 map.map[player->place_x][player->place_y - 1] == 'm' ||
-                rep == - 1) {
+                rep != -1) {
+                return 0;
                 break;
             }else if (map.map[player->place_x][player->place_y- 1] == 'b'){
                 int posX = player->place_x;
@@ -142,12 +145,14 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
                 break;
             }
             break;
-        case 'q' :
+        case 'z' :
+
             rep = returnId(node, player->place_x - 1, player->place_y);
 
             if (map.map[player->place_x - 1][player->place_y] == 'x' ||
                 map.map[player->place_x - 1][player->place_y] == 'm' ||
-                rep == - 1) {
+                rep != -1) {
+                return 0;
                 break;
             }else if(map.map[player->place_x- 1][player->place_y] == 'b') {
                 int posX = player->place_x-1;
@@ -169,11 +174,12 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
                 break;
             }
             break;
-        case 's' :
+        case 'd' :
             rep = returnId(node, player->place_x, player->place_y+1);
             if( map.map[player->place_x][player->place_y+1] == 'x' ||
                 map.map[player->place_x][player->place_y+1] == 'm' ||
-                rep == -1 ){
+                rep != -1 ){
+                return 0;
                 break;
             }else if (map.map[player->place_x][player->place_y+1] == 'b'){
                 int posX = player->place_x;
@@ -196,11 +202,12 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
             }
             break;
 
-        case 'd' :
+        case 's' :
             rep = returnId(node, player->place_x + 1, player->place_y);
             if (map.map[player->place_x + 1][player->place_y] == 'x' ||
                 map.map[player->place_x + 1][player->place_y] == 'm' ||
-                rep == -1) {
+                rep != -1) {
+                return 0;
                 break;
             }else if (map.map[player->place_x + 1][player->place_y] == 'b') {
                 int posX = player->place_x + 1;
@@ -226,6 +233,7 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
         default : printf("Erreur de déplacement");
     }
 }
+
 /*
 Player shot_bomb(Player *myPlayer, Game myGame, int posX, int posY, char direction){
     int bol = 1;
@@ -308,43 +316,56 @@ int check_bombpass(Player *player){
 
 void check_bomb(Map map,Game myGame, Node *playerList){
     Node *loop = playerList;
-    BombList *activeBomb ;
+    //BombList *activeBomb ;
     while (loop != NULL){
-        activeBomb = &loop->player.list_bomb;
-        if (loop->player.list_bomb.aBomb.turnPut + 2 == myGame.turn){
-            bomb_blast(map, &loop->player, myGame, playerList);
+
+        while(loop->player.list_bomb.next != NULL){
+
+            if (loop->player.list_bomb.aBomb.turnPut + 2 == myGame.turn){
+                printf("\n\nBOOM\n\n");
+                bomb_blast(map, &loop->player, myGame, playerList);
+            }
+            loop->player.list_bomb = *loop->player.list_bomb.next;
         }
-        loop->next;
+        /*activeBomb = &loop->player.list_bomb;
+        if (loop->player.list_bomb.aBomb.turnPut + 2 == myGame.turn){
+            //bomb_blast(map, &loop->player, myGame, playerList);
+        }*/
+        loop = loop->next;
     }
     ll_free(loop);
 }
 
-void put_bomb(Node *first, Game myGame, int playerPutBomb){
+void put_bomb(Player *myPlayer, Game myGame, Map *myMap){
     int i = 0;
     int nbBomb = 0;
-    Node *loop = first;
+/*    Node *loop = first;
+    printf("\nAVANT LOOP PUTBOMB\n");
     while (loop != NULL ){
         if (loop->player.playerID == playerPutBomb){
             break;
         }
         loop->next;
-    }
+    }*/
     BombList *activeBomb ;
-    activeBomb = &loop->player.list_bomb;
-    while(activeBomb != NULL){
-        activeBomb->next;
+    activeBomb = &myPlayer->list_bomb;
+
+
+    while(myPlayer->list_bomb.next != NULL){
+        myPlayer->list_bomb = *myPlayer->list_bomb.next;
         nbBomb++;
         i++;
     }
-    if(loop->player.maxBomb > nbBomb){
+
+    if(nbBomb <= myPlayer->maxBomb){
         Bomb aBomb;
         aBomb.idBomb = i;
         aBomb.turnPut = myGame.turn;
-        aBomb.place_y = loop->player.place_y;
-        aBomb.place_x = loop->player.place_x;
+        aBomb.place_y = myPlayer->place_y;
+        aBomb.place_x = myPlayer->place_x;
         ll_push_bomb(activeBomb, aBomb);
+        placeBomb(myMap, myPlayer->place_x, myPlayer->place_y);
     }
-    ll_free(loop);
     //ll_free(loop);
 }
 
@@ -369,7 +390,7 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
                     case 'x': propagation = 0;
                         break;
                     case 'm': propagation = 0 ;
-                            /*destroyWall()*/ ;
+                            //destroyWall(myMap, myPlayer->list_bomb.aBomb.place_x, myPlayer->list_bomb.aBomb.place_y);
                         break;
                     case 'b': propagation = 1;
                         break;

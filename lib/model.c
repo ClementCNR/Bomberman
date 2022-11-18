@@ -173,7 +173,7 @@ void ll_free_bomb(BombList *first){
 
 void ll_print(Node *first){
     while(first != NULL){
-        printf("player ID = %d / pos = %d - %d\n", first->player.playerID, first->player.place_x, first->player.place_y);
+        printf("player ID = %d / pos = %d - %d\n", first->player.playerID, first->player.place_y, first->player.place_x);
         first = first->next;
 
     }
@@ -193,7 +193,15 @@ Node *initPlayerList(Node *first, Map map){
     player.yellow_fire = 0;
     player.red_fire = 0;
     player.blue_fire = 0;
-    player.bomb_range = 0;
+    player.bomb_range = 2;
+    BombList bomb;
+    bomb.aBomb.idBomb = -1;
+    bomb.aBomb.turnPut = -1;
+    bomb.aBomb.place_x = -1;
+    bomb.aBomb.place_y = -1;
+    bomb.next = NULL;
+
+    player.list_bomb = bomb;
 
 
     for(int i = map.rows - 1; i >= 0; i--){
@@ -227,10 +235,21 @@ void destroyWall(Map *map, int x, int y){
 
 void placeBomb(Map *map, int x, int y){
 
-    for(int i = 0; i < map->rows; i++){
+    map->map[x][y] = 'b';
+    /*for(int i = 0; i < map->rows; i++){
         for(int j = 0; j < map->columns; j++) {
             if(i == x && j == y){
                 map->map[i][j] = 'b';
+            }
+        }
+    }*/
+}
+
+void removeP(Map *map){
+    for(int i = 0; i < map->rows; i++) {
+        for (int j = 0; j < map->columns; j++) {
+            if(map->map[i][j] == 'p'){
+                map->map[i][j] = ' ';
             }
         }
     }

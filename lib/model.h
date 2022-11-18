@@ -30,4 +30,6 @@ void destroyWall(Map *map, int x, int y);
 
 void placeBomb(Map *map, int x, int y);
 
+void removeP(Map *map);
+
 #endif //PROJET_MODEL_H

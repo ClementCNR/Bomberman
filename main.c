@@ -117,21 +117,30 @@ int main(){
 
 
     char input = '9';
-    int turn = 1;
     Node *loop = node;
     int wrongInput = 0;
+    int resultMove = 5;
+    removeP(&myMap);
 
+    myGame.turn = 1;
+    destroyWall(&myMap, 3, 1);
     while (input != 'p'){
 
 
         system("cls");
         printMapGame(myMap, node);
+        printf("Turn number %d\n", myGame.turn);
         printf("Player %d turn's !\n\nUse zqsd to move or SPACE to place a bomb, or p to QUIT !\n\n", loop->player.playerID);
+
+        //printf("\nresultMove : %d\n\n", resultMove);
+
         scanf("%c", &input);
         scanf("%c", &input);
 
         wrongInput = 0;
-        if(input == 'z'){
+
+
+        /*if(input == 'z'){
             movePlayerUp(node, loop->player.playerID);
         } else if(input == 'q'){
             movePlayerLeft(node, loop->player.playerID);
@@ -141,13 +150,20 @@ int main(){
             movePlayerRight(node, loop->player.playerID);
         } else if(input == ' '){
             placeBomb(&myMap,loop->player.place_x, loop->player.place_y);
+        */
+        resultMove = 1;
+        if(input == 'z' || input == 'q' || input == 's' || input == 'd'){
+            resultMove = move_player( myMap, &loop->player, input, myGame, node);
+        } else if ( input == ' '){
+            put_bomb(&loop->player, myGame, &myMap);
         } else {
             wrongInput = 1;
         }
 
+        //ll_print(node);
 
         if(wrongInput == 0){
-            turn++;
+            myGame.turn++;
             if(loop->next == NULL){
                 loop = node;
             } else {
@@ -156,6 +172,7 @@ int main(){
             if(loop->player.alive == 0){
                 loop = loop->next;
             }
+            check_bomb(myMap, myGame, node);
         }
 
     }
@@ -164,7 +181,7 @@ int main(){
     ll_free(node);
     exit(0);
 
-    //  ================================ Player Section ================================
+    /*//  ================================ Player Section ================================
 
     if (myGame.statusGame == 1){
         myGame.turn = 0;
@@ -201,7 +218,7 @@ int main(){
     }
 
     ll_free(node);
-    return 0;
+    return 0;*/
 
     // https://stackoverflow.com/questions/41383062/c-how-to-break-scanf-with-no-enter-and-no-string
 }
