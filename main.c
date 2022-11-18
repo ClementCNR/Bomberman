@@ -92,7 +92,7 @@ int main(){
     node = initPlayerList(node, myMap);
 
 
-    printMap(myMap);
+    //printMap(myMap);
 
 
   /*  for(int i = 0; i < CMD_WIDE; i++) {
@@ -146,9 +146,8 @@ int main(){
         }
 
 
-        turn++;
-
         if(wrongInput == 0){
+            turn++;
             if(loop->next == NULL){
                 loop = node;
             } else {
@@ -161,6 +160,9 @@ int main(){
 
     }
 
+    ll_free(loop);
+    ll_free(node);
+    exit(0);
 
     //  ================================ Player Section ================================
 
