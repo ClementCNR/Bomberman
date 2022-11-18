@@ -120,6 +120,35 @@ Node *ll_push_front(Node *first, Player newPlayer){
     return new;
 }
 
+Node *ll_add_last(Node *first, Player newPlayer){
+    Node *newNode = malloc(sizeof(Node));
+    newNode->player = newPlayer;
+    newNode->next = NULL;
+
+    //if head is NULL, it is an empty list
+    if(first == NULL){
+        first = newNode;
+    }
+        //Otherwise, find the last node and add the newNode
+    else
+    {
+        Node *lastNode = first;
+
+
+        //last node's next address will be NULL.
+        while(lastNode->next != NULL)
+        {
+            lastNode = lastNode->next;
+        }
+
+        //add the newNode at the end of the linked list
+        lastNode->next = newNode;
+
+
+    }
+}
+
+
 BombList *ll_push_bomb(BombList *first, Bomb aBomb){
     BombList *new = malloc(sizeof(BombList));
     new->aBomb = aBomb;
@@ -152,7 +181,7 @@ void ll_print(Node *first){
 
 Node *initPlayerList(Node *first, Map map){
 
-    int playerID = 0;
+    int playerID = map.maxPlayer;
     Player player;
     player.alive = 1;
     player.maxBomb = map.defaultBomb;
@@ -166,14 +195,17 @@ Node *initPlayerList(Node *first, Map map){
     player.blue_fire = 0;
     player.bomb_range = 0;
 
-    for(int i = 0; i < map.rows; i++){
-        for(int j = 0; j < map.columns; j++){
+
+    for(int i = map.rows - 1; i >= 0; i--){
+        for(int j = map.columns - 1; j >= 0; j--){
             if(map.map[i][j] == 'p'){
-                playerID++;
+
                 player.playerID = playerID;
                 player.place_x = i;
                 player.place_y = j;
                 first = ll_push_front(first, player);
+                //first = ll_add_last(first, player);
+                playerID--;
             }
         }
     }
@@ -181,6 +213,17 @@ Node *initPlayerList(Node *first, Map map){
     return first;
 
 }
+
+void destroyWall(Map *map, int x, int y){
+    for(int i = 0; i < map->rows; i++){
+        for(int j = 0; j < map->columns; j++) {
+            if(i == x && j == y){
+                map->map[i][j] = ' ';
+            }
+        }
+    }
+}
+
 
 void placeBomb(Map *map, int x, int y){
 

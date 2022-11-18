@@ -99,7 +99,7 @@ int main(){
         printf("=");
     }*/
 
-    printf("\n\n");
+/*    printf("\n\n");
 
 
     scanf("%d", &mapNumber);
@@ -113,15 +113,54 @@ int main(){
     system("cls");
     placeBomb(&myMap, 3, 3);
     printMapGame(myMap, node);
-    ll_print(node);
+    ll_print(node);*/
 
 
-    scanf("%d", &mapNumber);
+    char input = '9';
+    int turn = 1;
+    Node *loop = node;
+    int wrongInput = 0;
+
+    while (input != 'p'){
 
 
-    printf("joueur %d : %d", node->player.playerID, node->player.alive);
+        system("cls");
+        printMapGame(myMap, node);
+        printf("Player %d turn's !\n\nUse zqsd to move or SPACE to place a bomb, or p to QUIT !\n\n", loop->player.playerID);
+        scanf("%c", &input);
+        scanf("%c", &input);
 
-    scanf("%d", &mapNumber);
+        wrongInput = 0;
+        if(input == 'z'){
+            movePlayerUp(node, loop->player.playerID);
+        } else if(input == 'q'){
+            movePlayerLeft(node, loop->player.playerID);
+        } else if(input == 's'){
+            movePlayerDown(node, loop->player.playerID);
+        } else if(input == 'd'){
+            movePlayerRight(node, loop->player.playerID);
+        } else if(input == ' '){
+            placeBomb(&myMap,loop->player.place_x, loop->player.place_y);
+        } else {
+            wrongInput = 1;
+        }
+
+
+        turn++;
+
+        if(wrongInput == 0){
+            if(loop->next == NULL){
+                loop = node;
+            } else {
+                loop = loop->next;
+            }
+            if(loop->player.alive == 0){
+                loop = loop->next;
+            }
+        }
+
+    }
+
 
     //  ================================ Player Section ================================
 

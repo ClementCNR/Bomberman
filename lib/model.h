@@ -10,6 +10,8 @@ int nbMapFile();
 
 Node *ll_push_front(Node *first, Player newPlayer);
 
+Node *ll_add_last(Node *first, Player newPlayer);
+
 BombList *ll_push_bomb(BombList *first, Bomb newBomb);
 
 void ll_free(Node *first);
