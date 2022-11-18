@@ -78,29 +78,32 @@ Player items_take(Player *player, Game myGame, Map map) {
     // ajouter &
     char pos = map.map[player->place_x][player->place_y];
     switch (pos){
-        case 'b' : player->maxBomb++;
+        case '0' : player->maxBomb++;
             break;
-        case 'd' : player->maxBomb--;
+        case '1' : player->maxBomb--;
             break;
-        case 'c' : player->bomb_range++;
+        case '2' : player->bomb_range++;
             break;
-        case 'e' : player->bomb_range--;
+        case '3' : player->bomb_range--;
             break;
-        case 'r' : // appel fonction pour mettre la valuer de la bombe au max
-                // au colonne si il y  a plus de colonne ou de ligne ou autre
+        case '4' : if ( map.columns > map.rows){
+                player->bomb_range = map.columns;
+            }else{
+                player->bomb_range = map.rows;
+            }
             break;
-        case 'l' : if (player->heart == 0 ) { // l = heart
+        case '8' : if (player->heart == 0 ) { // l = heart
                 player->heart++;
             }break;
-        case 'i' : player->invincible = 1;
+        case '7' : player->invincible = 1;
                     player->invincible_take = myGame.turn;
             break;
-        case 'p' : if (player->bomb_kick == 1) { // Check si possede l'item de pousser les bomb
+        case '6' : if (player->bomb_kick == 1) { // Check si possede l'item de pousser les bomb
                 player->bomb_kick = 0; // retire l'item bomb kick
             }
             player->pass_bomb = 1;
             break;
-        case 'k' : if (player->pass_bomb == 1) { // Check si possede l'item de passer sur les bomb
+        case '5' : if (player->pass_bomb == 1) { // Check si possede l'item de passer sur les bomb
                 player->pass_bomb = 0; // retire l'item de passer sur les bombes
             }
             player->bomb_kick = 1;
@@ -130,11 +133,11 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
                     player->place_y--;
                     break;
                 }
-            }/*else if(map.map[player->place_x][player->place_y- 1] == 'item'){
+            }else if(map.map[player->place_x][player->place_y- 1] >= 0 && map.map[player->place_x][player->place_y- 1] <= 9){
                 items_take(player, myGame, map);
                 player->place_y--;
                 break;
-            }*/else if(map.map[player->place_x][player->place_y- 1] == ' '){
+            }else if(map.map[player->place_x][player->place_y- 1] == ' '){
                 player->place_y--;
                 break;
             }
@@ -157,11 +160,11 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
                     player->place_x--;
                     break;
                 }
-            }/*else if(map.map[player->place_x - 1][player->place_y] == 'item'){
+            }else if(map.map[player->place_x- 1][player->place_y] >= 0 && map.map[player->place_x- 1][player->place_y] <= 9){
                 items_take(player, myGame, map);
                 player->place_x--;
                 break;
-            }*/else if(map.map[player->place_x - 1][player->place_y] == ' '){
+            }else if(map.map[player->place_x - 1][player->place_y] == ' '){
                 player->place_x--;
                 break;
             }
@@ -183,11 +186,11 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
                     break;
                 }
                 break;
-            }/*else if(map.map[player->place_x][player->place_y+1] == 'item'){
+            }else if(map.map[player->place_x][player->place_y+1] >= 0 && map.map[player->place_x][player->place_y+1] <= 9){
                 items_take(player, myGame, map);
                 player->place_y++;
                 break;
-            }*/else if(map.map[player->place_x][player->place_y+1] == ' '){
+            }else if(map.map[player->place_x][player->place_y+1] == ' '){
                 player->place_y++;
                 break;
             }
@@ -211,11 +214,11 @@ Player move_player(Map map, Player *player, char move, Game myGame, Node *node){
                     break;
                 }
                 break;
-            }/*else if (map.map[player->place_x + 1][player->place_y] == 'item'){
+            }else if (map.map[player->place_x + 1][player->place_y] >= 0 && map.map[player->place_x + 1][player->place_y] <= 9){
                 items_take(player, myGame, map);
                 player->place_x++;
                 break;
-            }*/else if(map.map[player->place_x + 1][player->place_y] == ' '){
+            }else if(map.map[player->place_x + 1][player->place_y] == ' '){
                 player->place_x++;
                 break;
             }
@@ -303,8 +306,8 @@ int check_bombpass(Player *player){
     return 0;
 }
 
-void check_bomb(Map map, Node *first,Game myGame, Node *playerList){
-    Node *loop = first;
+void check_bomb(Map map,Game myGame, Node *playerList){
+    Node *loop = playerList;
     BombList *activeBomb ;
     while (loop != NULL){
         activeBomb = &loop->player.list_bomb;
@@ -392,8 +395,6 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
                         propagation1 = 0;
                         /*destroyWall()*/;
                         break;
-                    case 'p': /*killPlayer();*/ propagation1 = 1;
-                        break;
                     case 'i': /* détruit l'objet et continue la propagation*/ ;
                         break;
                 }
@@ -436,9 +437,6 @@ void bomb_blast(Map map, Player *myPlayer, Game myGame, Node *playerList){
                     case 'm':
                         propagation3 = 0 /*destroyWall()*/ ;
                         break;
-                    case 'p': killPlayer(,);
-                        propagation3 = 1;
-                        break;
                     case 'i': /* détruit l'objet et continue la propagation*/ ;
                         break;
                 }
@@ -456,6 +454,19 @@ int returnId(Node *playerList, int x, int y){
     }
     return -1;
 }
+
+int check_immortal(Node *playerList, Game myGame){
+    while(playerList != NULL){
+        if(playerList->player.invincible_take + 2 == myGame.turn){
+            playerList->player.invincible_take = 0;
+            playerList->player.invincible = 0;
+        }
+        playerList = playerList->next;
+    }
+}
+
+// Ajouter une fonction supprimant la bombe une fois explosé
+//
 
 void killPlayer(Node *playerList, int playerToKillID){
     while(playerList != NULL){

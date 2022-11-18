@@ -123,9 +123,6 @@ int main(){
 
     scanf("%d", &mapNumber);
 
-
-
-
     //  ================================ Player Section ================================
 
     if (myGame.statusGame == 1){
@@ -154,7 +151,8 @@ int main(){
             scanf("%c", &action);
             move_player( myMap, &loop->player, action, myGame, node);
 
-            check_bomb(myMap, node, myGame);
+            check_immortal(node, myGame);
+            check_bomb(myMap, myGame, node);
             myGame.turn++;
         }
         system("cls");

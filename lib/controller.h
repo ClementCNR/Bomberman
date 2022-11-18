@@ -33,9 +33,11 @@ void movePlayerRight(Node *playerList, int playerToMoveID);
 
 int checkPlayerAlive(Node *playerList, int playerToCheckID);
 
-void check_bomb(Map map, Node *first,Game myGame, Node *playerList);
+void check_bomb(Map map,Game myGame, Node *playerList);
 
 void killPlayer(Node *playerList, int playerToKillID);
+
+int check_immortal(Node *playerList, Game myGame);
 
 // return 10 for non item spawn, else between 0 and 9 (see define in struct.h)
 int randItemSpawn();
